@@ -7,8 +7,6 @@ on:
 jobs:
   organize:
     runs-on: ubuntu-latest
-    # CRITICAL: This prevents an infinite loop!
-    # It stops the bot from triggering itself after it organizes the files.
     if: github.actor != 'github-actions[bot]'
     steps:
       - uses: actions/checkout@v3
