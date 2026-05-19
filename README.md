@@ -26,8 +26,3 @@
   of competitive programming solutions.
 </p>
 
-### 📊 My Codeforces Profile
-
-<p align="center">
-  <img src="https://cf-readme-stats.vercel.net/api?username=LIGHTUNCHARGED&theme=dark" alt="Codeforces Stats" />
-</p>
