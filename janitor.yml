@@ -1,0 +1,33 @@
+name: Sort Submissions by Rating
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    # CRITICAL: This prevents an infinite loop!
+    # It stops the bot from triggering itself after it organizes the files.
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Organizer Script
+        run: python organize.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Auto-sort submissions by rating" || exit 0
+          git push
