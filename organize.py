@@ -4,6 +4,7 @@ import requests
 
 def main():
     print("Fetching problem ratings from Codeforces API...")
+    # API request to get JSON containing all Codeforces problems.
     try:
         response = requests.get("https://codeforces.com/api/problemset.problems", timeout=10).json()
         if response['status'] != 'OK':
@@ -23,8 +24,7 @@ def main():
     os.makedirs(archive_dir, exist_ok=True)
 
     for item in os.listdir('.'):
-        # Only process digit folders (Contest IDs) in the root directory. 
-        # This safely ignores the 'Sorted_Problems' folder.
+
         if os.path.isdir(item) and item.isdigit():
             contest_id = item
             
