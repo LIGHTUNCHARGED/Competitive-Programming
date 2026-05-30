@@ -1,0 +1,160 @@
+{
+    "stats": {
+        "total": 21,
+        "by_rating": {
+            "800": 10,
+            "1300": 1,
+            "1000": 8,
+            "1100": 2
+        }
+    },
+    "problems": [
+        {
+            "contestId": "2217",
+            "index": "A",
+            "name": "The Equalizer",
+            "rating": "800",
+            "path": "Sorted_Problems/800/2217_A - The Equalizer"
+        },
+        {
+            "contestId": "2208",
+            "index": "A",
+            "name": "Bingo Candies",
+            "rating": "800",
+            "path": "Sorted_Problems/800/2208_A - Bingo Candies"
+        },
+        {
+            "contestId": "2208",
+            "index": "C",
+            "name": "Stamina and Tasks",
+            "rating": "1300",
+            "path": "Sorted_Problems/1300/2208_C - Stamina and Tasks"
+        },
+        {
+            "contestId": "2193",
+            "index": "C",
+            "name": "Replace and Sum",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/2193_C - Replace and Sum"
+        },
+        {
+            "contestId": "2193",
+            "index": "D",
+            "name": "Monster Game",
+            "rating": "1100",
+            "path": "Sorted_Problems/1100/2193_D - Monster Game"
+        },
+        {
+            "contestId": "2192",
+            "index": "B",
+            "name": "Flipping Binary String",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/2192_B - Flipping Binary String"
+        },
+        {
+            "contestId": "2191",
+            "index": "B",
+            "name": "MEX Reordering",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/2191_B - MEX Reordering"
+        },
+        {
+            "contestId": "2188",
+            "index": "B",
+            "name": "Seats",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/2188_B - Seats"
+        },
+        {
+            "contestId": "2185",
+            "index": "B",
+            "name": "Prefix Max",
+            "rating": "800",
+            "path": "Sorted_Problems/800/2185_B - Prefix Max"
+        },
+        {
+            "contestId": "2185",
+            "index": "D",
+            "name": "OutOfMemoryError",
+            "rating": "1100",
+            "path": "Sorted_Problems/1100/2185_D - OutOfMemoryError"
+        },
+        {
+            "contestId": "2178",
+            "index": "A",
+            "name": "Yes or Yes",
+            "rating": "800",
+            "path": "Sorted_Problems/800/2178_A - Yes or Yes"
+        },
+        {
+            "contestId": "2120",
+            "index": "B",
+            "name": "Square Pool",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/2120_B - Square Pool"
+        },
+        {
+            "contestId": "1913",
+            "index": "B",
+            "name": "Swap and Delete",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/1913_B - Swap and Delete"
+        },
+        {
+            "contestId": "1903",
+            "index": "A",
+            "name": "Halloumi Boxes",
+            "rating": "800",
+            "path": "Sorted_Problems/800/1903_A - Halloumi Boxes"
+        },
+        {
+            "contestId": "1901",
+            "index": "A",
+            "name": "Line Trip",
+            "rating": "800",
+            "path": "Sorted_Problems/800/1901_A - Line Trip"
+        },
+        {
+            "contestId": "1900",
+            "index": "A",
+            "name": "Cover in Water",
+            "rating": "800",
+            "path": "Sorted_Problems/800/1900_A - Cover in Water"
+        },
+        {
+            "contestId": "1899",
+            "index": "A",
+            "name": "Game with Integers",
+            "rating": "800",
+            "path": "Sorted_Problems/800/1899_A - Game with Integers"
+        },
+        {
+            "contestId": "1896",
+            "index": "A",
+            "name": "Jagged Swaps",
+            "rating": "800",
+            "path": "Sorted_Problems/800/1896_A - Jagged Swaps"
+        },
+        {
+            "contestId": "1883",
+            "index": "C",
+            "name": "Raspberries",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/1883_C - Raspberries"
+        },
+        {
+            "contestId": "1876",
+            "index": "A",
+            "name": "Helmets in Night Light",
+            "rating": "1000",
+            "path": "Sorted_Problems/1000/1876_A - Helmets in Night Light"
+        },
+        {
+            "contestId": "231",
+            "index": "A",
+            "name": "Team",
+            "rating": "800",
+            "path": "Sorted_Problems/800/231_A - Team"
+        }
+    ]
+}
