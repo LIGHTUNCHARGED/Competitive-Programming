@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Category - CP Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen font-sans antialiased flex flex-col">
+
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 group hover:opacity-80 transition">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold tracking-wider text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back
+                </div>
+            </a>
+            <span class="font-semibold text-lg tracking-tight hidden sm:block">Category View</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
+
+        <div class="mb-10 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-white mb-2 flex items-center gap-3">
+                    Rating: <span id="rating-title" class="text-indigo-400">Loading...</span>
+                </h1>
+                <p class="text-slate-400" id="problem-count">Fetching problems...</p>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl border border-slate-700/50 overflow-hidden shadow-2xl">
+            <div class="grid grid-cols-12 gap-4 p-4 border-b border-slate-700/50 bg-slate-800/40 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <div class="col-span-2 text-center">Contest</div>
+                <div class="col-span-8">Problem Name</div>
+                <div class="col-span-2 text-right pr-4">Action</div>
+            </div>
+
+            <div id="problem-list" class="divide-y divide-slate-800/60 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                <div class="p-4 animate-pulse flex space-x-4">
+                    <div class="h-4 bg-slate-700 rounded w-1/6"></div>
+                    <div class="h-4 bg-slate-700 rounded w-4/6"></div>
+                </div>
+                <div class="p-4 animate-pulse flex space-x-4">
+                    <div class="h-4 bg-slate-700 rounded w-1/6"></div>
+                    <div class="h-4 bg-slate-700 rounded w-4/6"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-800/60 py-6 text-center text-sm text-slate-500 mt-auto">
+        <p>Codeforces Submissions Archive</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Get the rating from the URL (e.g., ?rating=1400)
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetRating = urlParams.get('rating');
+
+            const titleEl = document.getElementById('rating-title');
+            const countEl = document.getElementById('problem-count');
+            const listEl = document.getElementById('problem-list');
+
+            if (!targetRating) {
+                titleEl.textContent = "Error";
+                titleEl.className = "text-red-400";
+                countEl.textContent = "No rating specified in URL.";
+                listEl.innerHTML = `<div class="p-8 text-center text-slate-500">Please go back to the dashboard and select a category.</div>`;
+                return;
+            }
+
+            titleEl.textContent = targetRating;
+
+            try {
+                // Fetch the database
+                const response = await fetch('./database.json');
+                if (!response.ok) throw new Error("Database file missing.");
+                const data = await response.json();
+
+                // Filter problems for this specific rating
+                const filteredProblems = data.problems.filter(p => p.rating === targetRating);
+
+                if (filteredProblems.length === 0) {
+                    countEl.textContent = "0 problems found.";
+                    listEl.innerHTML = `<div class="p-8 text-center text-slate-500">No problems found for this rating.</div>`;
+                    return;
+                }
+
+                countEl.textContent = `${filteredProblems.length} problems solved`;
+                listEl.innerHTML = ''; // Clear skeleton loader
+
+                // Render the rows
+                filteredProblems.forEach(problem => {
+                    const row = document.createElement('div');
+                    row.className = "grid grid-cols-12 gap-4 p-4 items-center hover:bg-slate-800/40 transition group";
+
+                    row.innerHTML = `
+                        <div class="col-span-2 text-center font-mono text-sm text-slate-400">
+                            ${problem.contestId}${problem.index}
+                        </div>
+                        <div class="col-span-8 font-medium text-slate-200 group-hover:text-indigo-300 transition truncate">
+                            ${problem.name.replace(/_/g, ' ')}
+                        </div>
+                        <div class="col-span-2 text-right">
+                            <a href="solution.html?path=${encodeURIComponent(problem.path)}" class="inline-flex items-center text-xs font-semibold text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 px-3 py-1.5 rounded-lg transition">
+                                View Code
+                            </a>
+                        </div>
+                    `;
+                    listEl.appendChild(row);
+                });
+
+            } catch (err) {
+                console.error("Error loading category:", err);
+                countEl.textContent = "Failed to load database.";
+                listEl.innerHTML = `
+                    <div class="p-8 text-center text-red-400">
+                        Failed to load submissions database. Ensure <strong>database.json</strong> exists.
+                    </div>`;
+            }
+        });
+    </script>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.5); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
+    </style>
+</body>
+</html>
