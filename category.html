@@ -4,151 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rating Category - CP Archive</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0f172a',
-                        cardBg: '#1e293b',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/app.css">
+    <script src="assets/app.js"></script>
 </head>
-<body class="bg-darkBg text-slate-100 min-h-screen font-sans antialiased flex flex-col">
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <div class="container header-inner">
+                <a class="brand" href="index.html" aria-label="Back to dashboard">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
+                            <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="brand-copy">
+                        <span class="brand-title">Back to Dashboard</span>
+                        <span class="brand-subtitle">Rating category</span>
+                    </span>
+                </a>
 
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="index.html" class="flex items-center space-x-3 group hover:opacity-80 transition">
-                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold tracking-wider text-sm flex items-center">
-                    <svg class="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    Back
-                </div>
-            </a>
-            <span class="font-semibold text-lg tracking-tight hidden sm:block">Category View</span>
-        </div>
-    </header>
-
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
-
-        <div class="mb-10 flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-white mb-2 flex items-center gap-3">
-                    Rating: <span id="rating-title" class="text-indigo-400">Loading...</span>
-                </h1>
-                <p class="text-slate-400" id="problem-count">Fetching problems...</p>
-            </div>
-        </div>
-
-        <div class="glass rounded-2xl border border-slate-700/50 overflow-hidden shadow-2xl">
-            <div class="grid grid-cols-12 gap-4 p-4 border-b border-slate-700/50 bg-slate-800/40 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                <div class="col-span-2 text-center">Contest</div>
-                <div class="col-span-8">Problem Name</div>
-                <div class="col-span-2 text-right pr-4">Action</div>
-            </div>
-
-            <div id="problem-list" class="divide-y divide-slate-800/60 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                <div class="p-4 animate-pulse flex space-x-4">
-                    <div class="h-4 bg-slate-700 rounded w-1/6"></div>
-                    <div class="h-4 bg-slate-700 rounded w-4/6"></div>
-                </div>
-                <div class="p-4 animate-pulse flex space-x-4">
-                    <div class="h-4 bg-slate-700 rounded w-1/6"></div>
-                    <div class="h-4 bg-slate-700 rounded w-4/6"></div>
+                <div class="header-actions">
+                    <a class="text-button hide-mobile" href="index.html#ratings">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h3L12 6.5h5.5A2.5 2.5 0 0 1 20 9v8.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                        Ratings
+                    </a>
+                    <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Toggle light and dark mode">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
-        </div>
-    </main>
+        </header>
 
-    <footer class="border-t border-slate-800/60 py-6 text-center text-sm text-slate-500 mt-auto">
-        <p>Codeforces Submissions Archive</p>
-    </footer>
+        <main class="page-main">
+            <div class="container">
+                <section class="page-heading">
+                    <div>
+                        <p class="eyebrow">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M4 19V5M8 17v-6M12 17V7M16 17v-4M20 17V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Difficulty band
+                        </p>
+                        <h1 class="compact-title">Rating <span id="rating-title" class="gradient-text">Loading</span></h1>
+                        <p class="section-copy" id="problem-count">Fetching solved problems from the generated archive.</p>
+                    </div>
+                    <div class="toolbar">
+                        <input id="problem-search" class="search-box" type="search" placeholder="Search problems" autocomplete="off">
+                    </div>
+                </section>
+
+                <section class="panel problem-table" aria-label="Problems in selected rating">
+                    <div class="table-head">
+                        <div>Contest</div>
+                        <div>Problem</div>
+                        <div>Action</div>
+                    </div>
+                    <div id="problem-list" class="problem-list custom-scrollbar" aria-live="polite">
+                        <div class="loading-state">Loading problems...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer-inner">
+                <span><strong>CP Submission Archive</strong> category view.</span>
+                <span data-theme-label>Theme</span>
+            </div>
+        </footer>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            // Get the rating from the URL (e.g., ?rating=1400)
             const urlParams = new URLSearchParams(window.location.search);
-            const targetRating = urlParams.get('rating');
+            const targetRating = urlParams.get("rating");
+            const titleEl = document.getElementById("rating-title");
+            const countEl = document.getElementById("problem-count");
+            const listEl = document.getElementById("problem-list");
+            const searchEl = document.getElementById("problem-search");
+            const { escapeHtml, formatProblemName } = window.CPArchive;
+            let filteredProblems = [];
 
-            const titleEl = document.getElementById('rating-title');
-            const countEl = document.getElementById('problem-count');
-            const listEl = document.getElementById('problem-list');
+            function renderRows(query = "") {
+                const normalizedQuery = query.trim().toLowerCase();
+                const visibleProblems = normalizedQuery
+                    ? filteredProblems.filter((problem) => {
+                        const searchable = `${problem.contestId}${problem.index} ${problem.name}`.toLowerCase();
+                        return searchable.includes(normalizedQuery);
+                    })
+                    : filteredProblems;
+
+                if (visibleProblems.length === 0) {
+                    listEl.innerHTML = `<div class="empty-state">No matching problems in this rating band.</div>`;
+                    return;
+                }
+
+                listEl.innerHTML = visibleProblems.map((problem) => {
+                    const contestCode = `${problem.contestId}${problem.index}`;
+                    const problemName = formatProblemName(problem.name);
+                    return `
+                        <article class="problem-row">
+                            <div>
+                                <span class="contest-pill">${escapeHtml(contestCode)}</span>
+                            </div>
+                            <div class="problem-name">
+                                <strong>${escapeHtml(problemName)}</strong>
+                                <span>${escapeHtml(problem.path)}</span>
+                            </div>
+                            <div>
+                                <a class="text-button" href="solution.html?path=${encodeURIComponent(problem.path)}">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    View code
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                }).join("");
+            }
 
             if (!targetRating) {
-                titleEl.textContent = "Error";
-                titleEl.className = "text-red-400";
-                countEl.textContent = "No rating specified in URL.";
-                listEl.innerHTML = `<div class="p-8 text-center text-slate-500">Please go back to the dashboard and select a category.</div>`;
+                titleEl.textContent = "missing";
+                countEl.textContent = "No rating was specified. Return to the dashboard and choose a category.";
+                listEl.innerHTML = `<div class="error-state">No rating specified in the URL.</div>`;
+                searchEl.disabled = true;
                 return;
             }
 
             titleEl.textContent = targetRating;
 
             try {
-                // Fetch the database
-                const response = await fetch('./database.json');
+                const response = await fetch("./database.json");
                 if (!response.ok) throw new Error("Database file missing.");
                 const data = await response.json();
-
-                // Filter problems for this specific rating
-                const filteredProblems = data.problems.filter(p => p.rating === targetRating);
+                filteredProblems = (data.problems ?? [])
+                    .filter((problem) => problem.rating === targetRating)
+                    .sort((a, b) => {
+                        const contestDiff = Number(b.contestId) - Number(a.contestId);
+                        return contestDiff || String(a.index).localeCompare(String(b.index));
+                    });
 
                 if (filteredProblems.length === 0) {
-                    countEl.textContent = "0 problems found.";
-                    listEl.innerHTML = `<div class="p-8 text-center text-slate-500">No problems found for this rating.</div>`;
+                    countEl.textContent = "0 solved problems found for this rating.";
+                    listEl.innerHTML = `<div class="empty-state">No problems found for this rating yet.</div>`;
                     return;
                 }
 
-                countEl.textContent = `${filteredProblems.length} problems solved`;
-                listEl.innerHTML = ''; // Clear skeleton loader
-
-                // Render the rows
-                filteredProblems.forEach(problem => {
-                    const row = document.createElement('div');
-                    row.className = "grid grid-cols-12 gap-4 p-4 items-center hover:bg-slate-800/40 transition group";
-
-                    row.innerHTML = `
-                        <div class="col-span-2 text-center font-mono text-sm text-slate-400">
-                            ${problem.contestId}${problem.index}
-                        </div>
-                        <div class="col-span-8 font-medium text-slate-200 group-hover:text-indigo-300 transition truncate">
-                            ${problem.name.replace(/_/g, ' ')}
-                        </div>
-                        <div class="col-span-2 text-right">
-                            <a href="solution.html?path=${encodeURIComponent(problem.path)}" class="inline-flex items-center text-xs font-semibold text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 px-3 py-1.5 rounded-lg transition">
-                                View Code
-                            </a>
-                        </div>
-                    `;
-                    listEl.appendChild(row);
-                });
-
+                countEl.textContent = `${filteredProblems.length} solved ${filteredProblems.length === 1 ? "problem" : "problems"} in this difficulty band.`;
+                renderRows();
+                searchEl.addEventListener("input", () => renderRows(searchEl.value));
             } catch (err) {
                 console.error("Error loading category:", err);
-                countEl.textContent = "Failed to load database.";
-                listEl.innerHTML = `
-                    <div class="p-8 text-center text-red-400">
-                        Failed to load submissions database. Ensure <strong>database.json</strong> exists.
-                    </div>`;
+                countEl.textContent = "Failed to load the generated problem database.";
+                listEl.innerHTML = `<div class="error-state">Could not read <strong>database.json</strong>. Check that the pipeline generated it in the project root.</div>`;
+                searchEl.disabled = true;
             }
         });
     </script>
-
-    <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.5); border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
-    </style>
 </body>
 </html>
