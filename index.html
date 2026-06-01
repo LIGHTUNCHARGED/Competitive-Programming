@@ -84,28 +84,28 @@
                 <div class="dashboard-main">
                     <!-- Profile Banner -->
                     <section style="margin-bottom: 24px;">
-                        <div class="profile-banner panel" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(8, 145, 178, 0.08)); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; border: 1px solid var(--border-strong);">
-                            <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--brand-2)); display: grid; place-items: center; color: white; font-weight: 900; font-size: 1.3rem; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);">
+                        <div class="profile-banner panel">
+                            <div class="profile-avatar">
                                 LU
                             </div>
-                            <div style="flex: 1; min-width: 200px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <h2 style="margin: 0; font-size: 1.35rem; font-weight: 950; letter-spacing: -0.02em;">LIGHTUNCHARGED</h2>
-                                    <span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; background: var(--success); color: white; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em;">Sync Active</span>
+                            <div class="profile-info">
+                                <div class="profile-name-row">
+                                    <h2>LIGHTUNCHARGED</h2>
+                                    <span class="profile-badge">Sync Active</span>
                                 </div>
                                 <p style="margin: 4px 0 0; color: var(--text-muted); font-size: 0.85rem;">
                                     Tracked handle: <a href="https://codeforces.com/profile/LIGHTUNCHARGED" target="_blank" rel="noreferrer" style="color: var(--brand); font-weight: 800; text-decoration: underline;">LIGHTUNCHARGED</a>.
                                 </p>
                             </div>
-                            <div style="display: flex; gap: 16px;">
-                                <div style="text-align: center;">
-                                    <div id="banner-solved-count" style="font-size: 1.5rem; font-weight: 950; color: var(--brand); line-height: 1.1;">--</div>
-                                    <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em;">Solved</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <div id="banner-solved-count" class="profile-stat-val">--</div>
+                                    <div class="profile-stat-label">Solved</div>
                                 </div>
-                                <div style="width: 1px; background: var(--border); height: 28px; align-self: center;"></div>
-                                <div style="text-align: center;">
-                                    <div id="banner-category-count" style="font-size: 1.5rem; font-weight: 950; color: var(--brand-2); line-height: 1.1;">--</div>
-                                    <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em;">Categories</div>
+                                <div class="profile-divider"></div>
+                                <div class="profile-stat">
+                                    <div id="banner-category-count" class="profile-stat-val">--</div>
+                                    <div class="profile-stat-label">Categories</div>
                                 </div>
                             </div>
                         </div>
@@ -129,9 +129,11 @@
                                 </h2>
                             </div>
                         </div>
-                        <div class="panel" style="padding: 20px; margin-top: 12px;">
-                            <div id="heatmap-container" style="min-width: 100%; display: flex; flex-direction: column; gap: 8px;">
-                                <!-- Heatmap content rendered via app.js -->
+                        <div class="panel" style="padding: 20px; margin-top: 12px; overflow: hidden;">
+                            <div class="heatmap-scroll-wrapper" style="overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch;">
+                                <div id="heatmap-container" style="min-width: 689px; display: flex; flex-direction: column; gap: 8px;">
+                                    <!-- Heatmap content rendered via app.js -->
+                                </div>
                             </div>
                         </div>
                     </section>

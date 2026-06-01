@@ -267,6 +267,14 @@
       `;
 
       container.innerHTML = monthsHtml + gridHtml + legendHtml;
+
+      // Automatically scroll heatmap to the right to show the latest activity on mobile viewports
+      const scrollWrapper = container.closest('.heatmap-scroll-wrapper');
+      if (scrollWrapper) {
+        requestAnimationFrame(() => {
+          scrollWrapper.scrollLeft = scrollWrapper.scrollWidth;
+        });
+      }
     },
 
     renderRecentSubmissions(problems, container) {
