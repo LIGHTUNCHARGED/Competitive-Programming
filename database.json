@@ -1,6 +1,6 @@
 {
     "stats": {
-        "total": 22,
+        "total": 22, # total problem solved
         "by_rating": {
             "800": 11,
             "1300": 1,
