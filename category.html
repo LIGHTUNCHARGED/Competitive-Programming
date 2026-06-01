@@ -58,8 +58,12 @@
                         <h1 class="compact-title">Rating <span id="rating-title" class="gradient-text">Loading</span></h1>
                         <p class="section-copy" id="problem-count">Fetching solved problems from the generated archive.</p>
                     </div>
-                    <div class="toolbar">
-                        <input id="problem-search" class="search-box" type="search" placeholder="Search problems" autocomplete="off">
+                    <div class="toolbar" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <input id="problem-search" class="search-box" type="search" placeholder="Search problems" autocomplete="off" style="flex: 1; min-width: 200px;">
+                        <select id="sort-select" class="search-box" style="width: auto; cursor: pointer;">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
                     </div>
                 </section>
 
@@ -67,6 +71,7 @@
                     <div class="table-head">
                         <div>Contest</div>
                         <div>Problem</div>
+                        <div>Date Solved</div>
                         <div>Action</div>
                     </div>
                     <div id="problem-list" class="problem-list custom-scrollbar" aria-live="polite">
@@ -92,6 +97,7 @@
             const countEl = document.getElementById("problem-count");
             const listEl = document.getElementById("problem-list");
             const searchEl = document.getElementById("problem-search");
+            const sortEl = document.getElementById("sort-select");
             const { escapeHtml, formatProblemName } = window.CPArchive;
             let filteredProblems = [];
 
@@ -112,6 +118,13 @@
                 listEl.innerHTML = visibleProblems.map((problem) => {
                     const contestCode = `${problem.contestId}${problem.index}`;
                     const problemName = formatProblemName(problem.name);
+                    
+                    // Format Date
+                    const dateObj = new Date((problem.timestamp || 0) * 1000);
+                    const dateStr = (problem.timestamp && problem.timestamp > 0) 
+                        ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : 'Unknown';
+
                     return `
                         <article class="problem-row">
                             <div>
@@ -120,6 +133,9 @@
                             <div class="problem-name">
                                 <strong>${escapeHtml(problemName)}</strong>
                                 <span>${escapeHtml(problem.path)}</span>
+                            </div>
+                            <div class="problem-date" style="font-size: 0.875rem; opacity: 0.8;">
+                                ${escapeHtml(dateStr)}
                             </div>
                             <div>
                                 <a class="text-button" href="solution.html?path=${encodeURIComponent(problem.path)}">
@@ -139,21 +155,21 @@
                 countEl.textContent = "No rating was specified. Return to the dashboard and choose a category.";
                 listEl.innerHTML = `<div class="error-state">No rating specified in the URL.</div>`;
                 searchEl.disabled = true;
+                sortEl.disabled = true;
                 return;
             }
 
             titleEl.textContent = targetRating;
 
             try {
-                const response = await fetch("./database.json");
+                // Added cache-buster here
+                const response = await fetch("./database.json?v=" + new Date().getTime());
                 if (!response.ok) throw new Error("Database file missing.");
                 const data = await response.json();
+                
                 filteredProblems = (data.problems ?? [])
                     .filter((problem) => problem.rating === targetRating)
-                    .sort((a, b) => {
-                        const contestDiff = Number(b.contestId) - Number(a.contestId);
-                        return contestDiff || String(a.index).localeCompare(String(b.index));
-                    });
+                    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0)); // Sort newest first initially
 
                 if (filteredProblems.length === 0) {
                     countEl.textContent = "0 solved problems found for this rating.";
@@ -163,12 +179,25 @@
 
                 countEl.textContent = `${filteredProblems.length} solved ${filteredProblems.length === 1 ? "problem" : "problems"} in this difficulty band.`;
                 renderRows();
+                
                 searchEl.addEventListener("input", () => renderRows(searchEl.value));
+                
+                sortEl.addEventListener("change", (e) => {
+                    const mode = e.target.value;
+                    if (mode === "newest") {
+                        filteredProblems.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    } else {
+                        filteredProblems.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                    }
+                    renderRows(searchEl.value);
+                });
+                
             } catch (err) {
                 console.error("Error loading category:", err);
                 countEl.textContent = "Failed to load the generated problem database.";
                 listEl.innerHTML = `<div class="error-state">Could not read <strong>database.json</strong>. Check that the pipeline generated it in the project root.</div>`;
                 searchEl.disabled = true;
+                sortEl.disabled = true;
             }
         });
     </script>
