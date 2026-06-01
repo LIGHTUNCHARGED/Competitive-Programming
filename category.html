@@ -60,21 +60,15 @@
                     </div>
                     <div class="toolbar" style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <input id="problem-search" class="search-box" type="search" placeholder="Search problems" autocomplete="off" style="flex: 1; min-width: 200px;">
-                        <select id="sort-select" class="search-box" style="width: auto; cursor: pointer;">
+                        <select id="sort-select" class="search-box sort-dropdown" style="width: auto; cursor: pointer;">
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
                         </select>
                     </div>
                 </section>
 
-                <section class="panel problem-table" aria-label="Problems in selected rating">
-                    <div class="table-head">
-                        <div>Contest</div>
-                        <div>Problem</div>
-                        <div>Date Solved</div>
-                        <div>Action</div>
-                    </div>
-                    <div id="problem-list" class="problem-list custom-scrollbar" aria-live="polite">
+                <section class="panel problem-container" aria-label="Problems in selected rating" style="border: 0; background: transparent; box-shadow: none; backdrop-filter: none;">
+                    <div id="problem-list" class="problem-list custom-scrollbar" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 4px; max-height: none; overflow: visible;" aria-live="polite">
                         <div class="loading-state">Loading problems...</div>
                     </div>
                 </section>
@@ -101,7 +95,7 @@
             const { escapeHtml, formatProblemName } = window.CPArchive;
             let filteredProblems = [];
 
-            function renderRows(query = "") {
+            function renderCards(query = "") {
                 const normalizedQuery = query.trim().toLowerCase();
                 const visibleProblems = normalizedQuery
                     ? filteredProblems.filter((problem) => {
@@ -125,21 +119,40 @@
                         ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                         : 'Unknown';
 
+                    // Parse language badge from path
+                    const pathLower = (problem.path || "").toLowerCase();
+                    let langName = "C++";
+                    let langBg = "#2563eb";
+                    if (pathLower.endsWith(".cpp") || pathLower.includes("solution.cpp")) {
+                        langName = "C++";
+                        langBg = "#2563eb";
+                    } else if (pathLower.endsWith(".py") || pathLower.includes("solution.py")) {
+                        langName = "Python";
+                        langBg = "#eab308";
+                    } else if (pathLower.endsWith(".c") || pathLower.includes("solution.c")) {
+                        langName = "C";
+                        langBg = "#0ea5e9";
+                    }
+
                     return `
-                        <article class="problem-row">
-                            <div>
+                        <article class="problem-card" style="padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: transform 160ms ease, border-color 160ms ease; cursor: pointer; height: 100%;" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='var(--border)'" onclick="if(!event.target.closest('a')) window.location.href='solution.html?path=${encodeURIComponent(problem.path)}'">
+                            <div style="display: flex; align-items: start; justify-content: space-between; gap: 10px;">
                                 <span class="contest-pill">${escapeHtml(contestCode)}</span>
+                                <span class="language-badge" style="display: inline-flex; align-items: center; min-height: 24px; padding: 2px 8px; border-radius: 4px; color: white; background: ${langBg}; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
+                                    ${escapeHtml(langName)}
+                                </span>
                             </div>
-                            <div class="problem-name">
-                                <strong>${escapeHtml(problemName)}</strong>
-                                <span>${escapeHtml(problem.path)}</span>
+                            <div class="problem-name" style="flex: 1;">
+                                <strong style="font-size: 1.1rem; line-height: 1.3; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${escapeHtml(problemName)}">
+                                    ${escapeHtml(problemName)}
+                                </strong>
                             </div>
-                            <div class="problem-date" style="font-size: 0.875rem; opacity: 0.8;">
-                                ${escapeHtml(dateStr)}
-                            </div>
-                            <div>
-                                <a class="text-button" href="solution.html?path=${encodeURIComponent(problem.path)}">
-                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
+                                <span class="problem-date" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">
+                                    ${escapeHtml(dateStr)}
+                                </span>
+                                <a class="text-button" href="solution.html?path=${encodeURIComponent(problem.path)}" style="min-height: 32px; height: 32px; padding: 0 12px;">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width: 14px; height: 14px;">
                                         <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                     View code
@@ -178,9 +191,9 @@
                 }
 
                 countEl.textContent = `${filteredProblems.length} solved ${filteredProblems.length === 1 ? "problem" : "problems"} in this difficulty band.`;
-                renderRows();
+                renderCards();
                 
-                searchEl.addEventListener("input", () => renderRows(searchEl.value));
+                searchEl.addEventListener("input", () => renderCards(searchEl.value));
                 
                 sortEl.addEventListener("change", (e) => {
                     const mode = e.target.value;
@@ -189,7 +202,7 @@
                     } else {
                         filteredProblems.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
                     }
-                    renderRows(searchEl.value);
+                    renderCards(searchEl.value);
                 });
                 
             } catch (err) {
