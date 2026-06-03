@@ -1,8 +1,8 @@
 {
     "stats": {
-        "total": 24,
+        "total": 25,
         "by_rating": {
-            "800": 13,
+            "800": 14,
             "1300": 1,
             "1000": 8,
             "1100": 2
@@ -16,6 +16,14 @@
             "rating": "800",
             "timestamp": 1780496701,
             "path": "Sorted_Problems/800/1881_A - Don't Try to Count"
+        },
+        {
+            "contestId": "1878",
+            "index": "A",
+            "name": "How Much Does Daytona Cost",
+            "rating": "800",
+            "timestamp": 1780495360,
+            "path": "Sorted_Problems/800/1878_A - How Much Does Daytona Cost"
         },
         {
             "contestId": "2209",
