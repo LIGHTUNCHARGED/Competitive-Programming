@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 23,
+        "total": 24,
         "by_rating": {
-            "800": 12,
+            "800": 13,
             "1300": 1,
             "1000": 8,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1881",
+            "index": "A",
+            "name": "Don't Try to Count",
+            "rating": "800",
+            "timestamp": 1780496701,
+            "path": "Sorted_Problems/800/1881_A - Don't Try to Count"
+        },
         {
             "contestId": "2209",
             "index": "A",
