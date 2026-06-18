@@ -6,16 +6,31 @@
 
 | Total Problems | Topics |
 |---|---|
-| 1 | 2 |
+| 2 | 5 |
 
 ---
 
 ## 📂 Topic-Wise Problems
 
+- [constructive algorithms](#constructive-algorithms) (1)
+- [greedy](#greedy) (1)
 - [implementation](#implementation) (1)
-- [math](#math) (1)
+- [math](#math) (2)
+- [sortings](#sortings) (1)
 
 ---
+
+### constructive algorithms
+
+| # | Problem | Difficulty | Solution |
+|---|---------|------------|----------|
+| 1859B | [Olya and Game with Arrays](https://codeforces.com/contest/1859/problem/B) | 1000 | [C++17 (GCC 7-32)](https://github.com/LIGHTUNCHARGED/Competitive-Programming/blob/HEAD/1859/B%20-%20Olya%20and%20Game%20with%20Arrays/solution.cpp) |
+
+### greedy
+
+| # | Problem | Difficulty | Solution |
+|---|---------|------------|----------|
+| 1859B | [Olya and Game with Arrays](https://codeforces.com/contest/1859/problem/B) | 1000 | [C++17 (GCC 7-32)](https://github.com/LIGHTUNCHARGED/Competitive-Programming/blob/HEAD/1859/B%20-%20Olya%20and%20Game%20with%20Arrays/solution.cpp) |
 
 ### implementation
 
@@ -27,7 +42,14 @@
 
 | # | Problem | Difficulty | Solution |
 |---|---------|------------|----------|
+| 1859B | [Olya and Game with Arrays](https://codeforces.com/contest/1859/problem/B) | 1000 | [C++17 (GCC 7-32)](https://github.com/LIGHTUNCHARGED/Competitive-Programming/blob/HEAD/1859/B%20-%20Olya%20and%20Game%20with%20Arrays/solution.cpp) |
 | 2227A | [Koshary](https://codeforces.com/contest/2227/problem/A) | 800 | [C++17 (GCC 7-32)](https://github.com/LIGHTUNCHARGED/Competitive-Programming/blob/HEAD/2227/A%20-%20Koshary/solution.cpp) |
+
+### sortings
+
+| # | Problem | Difficulty | Solution |
+|---|---------|------------|----------|
+| 1859B | [Olya and Game with Arrays](https://codeforces.com/contest/1859/problem/B) | 1000 | [C++17 (GCC 7-32)](https://github.com/LIGHTUNCHARGED/Competitive-Programming/blob/HEAD/1859/B%20-%20Olya%20and%20Game%20with%20Arrays/solution.cpp) |
 
 ---
 
