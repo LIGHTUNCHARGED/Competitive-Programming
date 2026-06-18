@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 27,
+        "total": 28,
         "by_rating": {
             "1000": 9,
-            "800": 15,
+            "800": 16,
             "1300": 1,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1877",
+            "index": "A",
+            "name": "Goals of Victory",
+            "rating": "800",
+            "timestamp": 1781793882,
+            "path": "Sorted_Problems/800/1877_A - Goals of Victory"
+        },
         {
             "contestId": "1859",
             "index": "B",
