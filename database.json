@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 29,
+        "total": 30,
         "by_rating": {
             "1000": 9,
-            "800": 17,
+            "800": 18,
             "1300": 1,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1866",
+            "index": "A",
+            "name": "Ambitious Kid",
+            "rating": "800",
+            "timestamp": 1781847695,
+            "path": "Sorted_Problems/800/1866_A - Ambitious Kid"
+        },
         {
             "contestId": "1873",
             "index": "C",
