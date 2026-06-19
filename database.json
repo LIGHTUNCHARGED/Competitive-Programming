@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 28,
+        "total": 29,
         "by_rating": {
             "1000": 9,
-            "800": 16,
+            "800": 17,
             "1300": 1,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1873",
+            "index": "C",
+            "name": "Target Practice",
+            "rating": "800",
+            "timestamp": 1781836465,
+            "path": "Sorted_Problems/800/1873_C - Target Practice"
+        },
         {
             "contestId": "1877",
             "index": "A",
