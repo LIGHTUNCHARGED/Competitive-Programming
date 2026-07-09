@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 30,
+        "total": 31,
         "by_rating": {
-            "1000": 9,
+            "1000": 10,
             "800": 18,
             "1300": 1,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "2237",
+            "index": "B",
+            "name": "Annoying the Ghost",
+            "rating": "1000",
+            "timestamp": 1783568663,
+            "path": "Sorted_Problems/1000/2237_B - Annoying the Ghost"
+        },
         {
             "contestId": "1866",
             "index": "A",
