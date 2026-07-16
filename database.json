@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 31,
+        "total": 32,
         "by_rating": {
             "1000": 10,
-            "800": 18,
+            "800": 19,
             "1300": 1,
             "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1862",
+            "index": "B",
+            "name": "Sequence Game",
+            "rating": "800",
+            "timestamp": 1784200994,
+            "path": "Sorted_Problems/800/1862_B - Sequence Game"
+        },
         {
             "contestId": "2237",
             "index": "B",
