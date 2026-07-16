@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 34,
+        "total": 35,
         "by_rating": {
-            "1100": 2,
-            "800": 21,
             "1000": 10,
-            "1300": 1
+            "800": 22,
+            "1300": 1,
+            "1100": 2
         }
     },
     "problems": [
+        {
+            "contestId": "1857",
+            "index": "A",
+            "name": "Array Coloring",
+            "rating": "800",
+            "timestamp": 1784220086,
+            "path": "Sorted_Problems/800/1857_A - Array Coloring"
+        },
         {
             "contestId": "1858",
             "index": "A",
