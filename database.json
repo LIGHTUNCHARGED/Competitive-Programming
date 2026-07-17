@@ -1,8 +1,8 @@
 {
     "stats": {
-        "total": 35,
+        "total": 36,
         "by_rating": {
-            "1100": 2,
+            "1100": 3,
             "800": 22,
             "1000": 10,
             "1300": 1
@@ -32,6 +32,14 @@
             "rating": "800",
             "timestamp": 1784214020,
             "path": "Sorted_Problems/800/1859_A - United We Stand"
+        },
+        {
+            "contestId": "2241",
+            "index": "D",
+            "name": "An Alternative Way",
+            "rating": "1100",
+            "timestamp": 1784208742,
+            "path": "Sorted_Problems/1100/2241_D - An Alternative Way"
         },
         {
             "contestId": "1862",
