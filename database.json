@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 37,
+        "total": 38,
         "by_rating": {
             "1100": 3,
             "800": 23,
-            "1000": 10,
+            "1000": 11,
             "1300": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1744",
+            "index": "C",
+            "name": "Traffic Light",
+            "rating": "1000",
+            "timestamp": 1784390631,
+            "path": "Sorted_Problems/1000/1744_C - Traffic Light"
+        },
         {
             "contestId": "1853",
             "index": "A",
