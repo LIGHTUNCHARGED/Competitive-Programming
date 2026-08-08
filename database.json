@@ -1,14 +1,22 @@
 {
     "stats": {
-        "total": 43,
+        "total": 44,
         "by_rating": {
-            "800": 28,
+            "800": 29,
             "1000": 11,
             "1100": 3,
             "1300": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1814",
+            "index": "A",
+            "name": "Coins",
+            "rating": "800",
+            "timestamp": 1786220523,
+            "path": "Sorted_Problems/800/1814_A - Coins"
+        },
         {
             "contestId": "1829",
             "index": "B",
