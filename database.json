@@ -1,8 +1,8 @@
 {
     "stats": {
-        "total": 46,
+        "total": 47,
         "by_rating": {
-            "800": 30,
+            "800": 31,
             "1000": 11,
             "1100": 3,
             "1300": 1,
@@ -10,6 +10,14 @@
         }
     },
     "problems": [
+        {
+            "contestId": "1805",
+            "index": "A",
+            "name": "We Need the Zero",
+            "rating": "800",
+            "timestamp": 1786477760,
+            "path": "Sorted_Problems/800/1805_A - We Need the Zero"
+        },
         {
             "contestId": "2248",
             "index": "D",
