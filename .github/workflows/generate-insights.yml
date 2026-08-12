@@ -1,0 +1,77 @@
+name: Generate AI Code Insights
+
+on:
+  repository_dispatch:
+    types: [generate_insight]
+  workflow_dispatch:
+    inputs:
+      problem_path:
+        description: 'Problem path (e.g., Sorted_Problems/800/1788_A - One and Two)'
+        required: false
+      force:
+        description: 'Force overwrite existing insights'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  insights:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai requests
+
+      - name: Run AI Insights Generator
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: "gemini-3.5-flash-lite"
+        run: |
+          PATH_ARG=""
+          FORCE_ARG=""
+
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            if [ -n "${{ github.event.client_payload.path }}" ]; then
+              PATH_ARG="--path '${{ github.event.client_payload.path }}'"
+            fi
+            if [ "${{ github.event.client_payload.force }}" = "true" ]; then
+              FORCE_ARG="--force"
+            fi
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ -n "${{ github.event.inputs.problem_path }}" ]; then
+              PATH_ARG="--path '${{ github.event.inputs.problem_path }}'"
+            fi
+            if [ "${{ github.event.inputs.force }}" = "true" ]; then
+              FORCE_ARG="--force"
+            fi
+          else
+            PATH_ARG="--all"
+          fi
+
+          eval python generate_insights.py $PATH_ARG $FORCE_ARG
+
+      - name: Commit & Push Generated Insights
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Sorted_Problems/ database.json
+          if git diff --staged --quiet; then
+            echo "No new insights to commit."
+          else
+            git commit -m "feat(ai): add auto-generated AI Code Insights [skip ci]"
+            git push origin main
+          fi

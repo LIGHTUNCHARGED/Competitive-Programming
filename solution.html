@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
     <link rel="stylesheet" href="assets/app.css">
     <script src="assets/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
@@ -60,6 +63,12 @@
                         <h1 class="compact-title" id="problem-title">Loading problem</h1>
                     </div>
                     <div class="toolbar" id="solution-toolbar" style="display: flex; gap: 10px; align-items: center;">
+                        <button class="text-button ai-insights-btn" id="ai-insights-trigger-btn" type="button" onclick="handleInsightsTrigger()">
+                            <svg class="ai-sparkle-icon" viewBox="0 0 24 24" fill="none" style="width:16px; height:16px; stroke:#a855f7; stroke-width:2;">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span id="ai-btn-text">Generate AI Insights</span>
+                        </button>
                         <button class="text-button toggle-sidebar-btn" type="button" aria-label="Toggle notes sidebar">
                             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; width: 16px; height: 16px;">
                                 <path d="M15 19l-7-7 7-7"/>
@@ -103,6 +112,74 @@
                             <pre><code id="code-content" class="language-cpp">Loading solution...</code></pre>
                         </div>
                     </section>
+                </section>
+
+                <!-- AI Code Insights Card -->
+                <section class="solution-card ai-insights-card" id="ai-insights-container" style="display: none; margin-top: 24px;">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <svg style="width: 20px; height: 20px; color: #a855f7;" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <h2 class="card-title" style="margin: 0;">AI Code Insights & Quality Breakdown</h2>
+                            <span class="badge" id="ai-model-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); padding: 2px 8px; border-radius: 12px; font-size: 11px;">gemini-3.5-flash-lite</span>
+                        </div>
+                        <button class="text-button" onclick="handleInsightsTrigger(true)" style="font-size: 12px; gap: 4px;" title="Regenerate AI Insights">
+                            <svg viewBox="0 0 24 24" fill="none" style="width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;">
+                                <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                            </svg>
+                            Regenerate
+                        </button>
+                    </div>
+
+                    <div class="insights-body custom-scrollbar" style="padding: 20px; display: grid; gap: 20px;">
+                        <!-- Approach & Tags -->
+                        <div>
+                            <div id="ai-tags-container" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"></div>
+                            <h3 id="ai-title" style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;"></h3>
+                            <p id="ai-approach" style="color: var(--text-secondary); line-height: 1.6; font-size: 14px;"></p>
+                        </div>
+
+                        <!-- Grid for Complexity & Score -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                            <!-- Complexity Card -->
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                                <h4 style="color: #60a5fa; margin-bottom: 10px; font-size: 14px; font-weight: 600;">⚡ Complexity Analysis</h4>
+                                <div style="margin-bottom: 8px; font-size: 13px;">
+                                    <strong>Time Complexity:</strong> <span id="ai-time-comp" style="font-family: monospace; color: #34d399;"></span>
+                                    <p id="ai-time-just" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;"></p>
+                                </div>
+                                <div style="font-size: 13px;">
+                                    <strong>Space Complexity:</strong> <span id="ai-space-comp" style="font-family: monospace; color: #34d399;"></span>
+                                    <p id="ai-space-just" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;"></p>
+                                </div>
+                            </div>
+
+                            <!-- Quality Score Card -->
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px;">
+                                <div style="width: 64px; height: 64px; border-radius: 50%; border: 3px solid #a855f7; display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0;">
+                                    <span id="ai-quality-score" style="font-size: 20px; font-weight: 800; color: #a855f7;">--</span>
+                                    <span style="font-size: 9px; text-transform: uppercase; color: var(--text-muted);">Score</span>
+                                </div>
+                                <div>
+                                    <h4 id="ai-quality-label" style="color: var(--text-primary); font-size: 15px; font-weight: 700; margin: 0;">Evaluating...</h4>
+                                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Evaluated against competitive programming clean code & edge case standards.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step-by-Step Walkthrough -->
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px; font-size: 15px;">🔍 Step-by-Step Code Walkthrough</h4>
+                            <div id="ai-code-breakdown" style="display: grid; gap: 10px;"></div>
+                        </div>
+
+                        <!-- Optimizations & Alternatives -->
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px; font-size: 15px;">💡 Optimization & Alternative Approaches</h4>
+                            <div id="ai-alternatives" style="display: grid; gap: 10px;"></div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </main>
@@ -249,7 +326,147 @@
                 console.error("Failed to fetch code", error);
                 codeEl.textContent = "// Error: Failed to load the solution source.";
             }
+
+            // Fetch AI Code Insights if available
+            fetchAIInsights(encodedPath, rawBaseUrl);
         });
+
+        async function fetchAIInsights(encodedPath, rawBaseUrl) {
+            try {
+                const response = await fetchFirst([
+                    `${encodedPath}/insights.json`,
+                    `${rawBaseUrl}/insights.json`
+                ]);
+                const data = await response.json();
+                renderAIInsights(data);
+                const btnText = document.getElementById("ai-btn-text");
+                if (btnText) btnText.textContent = "AI Insights Loaded";
+            } catch (error) {
+                console.log("No AI insights found for this problem.");
+            }
+        }
+
+        function formatLatex(text) {
+            if (!text) return "";
+            if (window.katex) {
+                // Replace inline $...$ or $$...$$ with rendered KaTeX html
+                return text.replace(/\$\$([\s\S]+?)\$\$/g, (match, math) => {
+                    try { return katex.renderToString(math, { displayMode: true }); } catch(e) { return match; }
+                }).replace(/\$([^\$\n]+?)\$/g, (match, math) => {
+                    try { return katex.renderToString(math, { displayMode: false }); } catch(e) { return match; }
+                });
+            }
+            return text;
+        }
+
+        function renderAIInsights(data) {
+            const container = document.getElementById("ai-insights-container");
+            if (!container) return;
+            container.style.display = "block";
+
+            if (data.model) {
+                document.getElementById("ai-model-badge").textContent = data.model;
+            }
+
+            document.getElementById("ai-title").innerHTML = formatLatex(data.title || "AI Code Insights");
+            document.getElementById("ai-approach").innerHTML = formatLatex(data.approach_explanation || "");
+
+            // Tags
+            const tagsContainer = document.getElementById("ai-tags-container");
+            tagsContainer.innerHTML = (data.algorithm_tags || []).map(t => 
+                `<span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">${t}</span>`
+            ).join("");
+
+            // Complexities
+            document.getElementById("ai-time-comp").innerHTML = formatLatex(data.complexity_analysis?.time_complexity || "");
+            document.getElementById("ai-time-just").innerHTML = formatLatex(data.complexity_analysis?.time_justification || "");
+            document.getElementById("ai-space-comp").innerHTML = formatLatex(data.complexity_analysis?.space_complexity || "");
+            document.getElementById("ai-space-just").innerHTML = formatLatex(data.complexity_analysis?.space_justification || "");
+
+            // Quality Score
+            if (data.code_quality) {
+                document.getElementById("ai-quality-score").textContent = data.code_quality.score || 0;
+                document.getElementById("ai-quality-label").textContent = data.code_quality.rating_label || "Evaluated";
+            }
+
+            // Breakdown
+            const breakdownEl = document.getElementById("ai-code-breakdown");
+            breakdownEl.innerHTML = (data.code_breakdown || []).map(item => `
+                <div style="background: rgba(255,255,255,0.02); border-left: 3px solid #a855f7; padding: 12px 16px; border-radius: 4px;">
+                    <strong style="color: #e9d5ff; font-size: 14px;">Step ${item.step}: ${item.section_title}</strong>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">${formatLatex(item.explanation)}</p>
+                </div>
+            `).join("");
+
+            // Alternatives
+            const altEl = document.getElementById("ai-alternatives");
+            altEl.innerHTML = (data.optimization_and_alternatives || []).map(alt => `
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <strong style="color: #60a5fa; font-size: 14px;">${alt.approach_name}</strong>
+                        <span style="font-family: monospace; font-size: 12px; color: #34d399;">${formatLatex(alt.time_complexity)} | ${formatLatex(alt.space_complexity)}</span>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">${formatLatex(alt.tradeoffs)}</p>
+                </div>
+            `).join("");
+
+            if (window.renderMathInElement) {
+                try {
+                    renderMathInElement(container, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                } catch(e) { console.error("KaTeX render error", e); }
+            }
+        }
+
+        async function handleInsightsTrigger(force = false) {
+            const btn = document.getElementById("ai-insights-trigger-btn");
+            const btnText = document.getElementById("ai-btn-text");
+            const urlParams = new URLSearchParams(window.location.search);
+            const folderPath = urlParams.get("path");
+
+            if (!folderPath) {
+                alert("No problem path found in URL.");
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.textContent = "Requesting Gemini...";
+
+            try {
+                const response = await fetch("https://api.github.com/repos/LIGHTUNCHARGED/Competitive-Programming/dispatches", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/vnd.github+json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        event_type: "generate_insight",
+                        client_payload: {
+                            path: folderPath,
+                            force: force
+                        }
+                    })
+                });
+
+                if (response.ok || response.status === 204) {
+                    alert("✨ AI Insights generation pipeline triggered! Gemini will analyze the code and update the site shortly.");
+                } else {
+                    alert("Notice: Pipeline dispatch sent to GitHub Actions.");
+                }
+            } catch (err) {
+                alert("Unable to trigger online dispatch. Run 'python generate_insights.py --path \"" + folderPath + "\"' locally.");
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = "Generate AI Insights";
+            }
+        }
 
         function copyCode() {
             if (!rawCode) return;

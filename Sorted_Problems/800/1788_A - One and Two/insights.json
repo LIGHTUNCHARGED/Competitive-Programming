@@ -1,0 +1,64 @@
+{
+  "title": "Prefix Sum of Twos for Split Index",
+  "algorithm_tags": [
+    "Prefix Sums",
+    "Implementation",
+    "Greedy"
+  ],
+  "approach_explanation": "Since the array elements are only 1 and 2, the product of any subarray is simply $2^{\text{count of 2s}}$. For the product of the prefix of length $k$ to equal the product of the suffix from $k+1$ to $n$, the count of 2s in the prefix must equal the count of 2s in the suffix. We can precompute the total count of 2s or use a prefix sum array to keep track of the number of 2s up to each index. Then, we iterate through all possible split points $k$ from $1$ to $n-1$, check if the number of 2s in the left part equals the number of 2s in the right part, and return the first (smallest) $k$ that satisfies this condition.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop and Input Reading",
+      "explanation": "Reads the number of test cases $t$, and for each test case, reads $n$ and initializes a prefix sum vector to store the cumulative count of 2s."
+    },
+    {
+      "step": 2,
+      "section_title": "Prefix Sum Computation",
+      "explanation": "Iterates through the input elements, checking if each number is 2. Updates the prefix sum array such that `prefix[i]` stores the total number of 2s from index $0$ to $i$."
+    },
+    {
+      "step": 3,
+      "section_title": "Finding the Optimal Split Point",
+      "explanation": "Iterates $i$ from $0$ to $n-2$ (corresponding to split index $k = i+1$). Computes the number of 2s in the prefix $a[0 \to i]$ as `prefix[i]` and in the suffix $a[i+1 \to n-1]$ as `prefix[n-1] - prefix[i]`. If they are equal, sets `ans = i+1` and terminates early to ensure the smallest $k$ is chosen."
+    },
+    {
+      "step": 4,
+      "section_title": "Output Result",
+      "explanation": "Prints the computed index `ans` (or $-1$ if no valid $k$ was found) for each test case."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each test case, we make a single pass to read input and compute prefix sums, taking $O(n)$ time. We make a second pass of length $n-1$ to find the split index, which also takes $O(n)$ time. Over $t$ test cases, the total time complexity is $O(\textsum n)$, which is bounded by $O(n \times t) \text{ or } O(\text{max } \text{sum of } n) \text{ i.e., } O(N_{\text{total}})$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "We allocate a vector `prefix` of size $n$ to store the prefix sums of 2s for each test case, which requires $O(n)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Great",
+    "strengths": [
+      "Clean separation of test cases and efficient logic using prefix sums.",
+      "Early exit ensures the smallest index $k$ is found immediately.",
+      "Linear time complexity is optimal for this problem."
+    ],
+    "edge_cases_handled": [
+      "Arrays with no 2s (all 1s), correctly handled since count of 2s on both sides is 0.",
+      "Arrays with odd/even numbers of 2s, correctly returning -1 when impossible."
+    ],
+    "best_practices_feedback": [
+      "Use `\n` instead of `endl` for faster I/O operations in competitive programming.",
+      "Consider using `std::vector<int>` memory reuse across test cases if $n$ can be very large, though for $N \not\rightarrow 1000$ it is fine."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Constant Space Two-Pass Count",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing prefix sums in a vector, we can count the total number of 2s in a first pass, and then iterate through the array a second time maintaining a running count of 2s, achieving $O(1)$ auxiliary space."
+    }
+  ],
+  "generated_at": 1786577258,
+  "model": "gemini-3.5-flash-lite"
+}
