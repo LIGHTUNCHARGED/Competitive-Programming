@@ -1,0 +1,59 @@
+{
+  "title": "Twin Permutations Construction via Complement",
+  "algorithm_tags": [
+    "Constructive Algorithms",
+    "Math",
+    "Arrays"
+  ],
+  "approach_explanation": "To satisfy the condition that $a_1 + b_1 \nleq a_2 + b_2 \nleq \to \nleq a_n + b_n$, a sufficient and elegant strategy is to make every sum $a_i + b_i$ a constant value. By choosing $b_i = n + 1 - a_i$, we ensure that each sum $a_i + b_i = n + 1$. Because all sums are equal to the same constant, the non-decreasing inequality is trivially satisfied. Furthermore, since $a$ is a permutation of integers from $1$ to $n$, the transformation $b_i = n + 1 - a_i$ maps every distinct element into a distinct element within the same range $[1, n]$, thus guaranteeing that $b$ is also a valid permutation.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Input Reading",
+      "explanation": "Read the number of test cases $t$, and for each test case, read the size of the permutation $n$ followed by the elements of the array $a$ into a vector $v$."
+    },
+    {
+      "step": 2,
+      "section_title": "Constant Sum Reference Setup",
+      "explanation": "Define an integer variable `ref` equal to $n + 1$, which represents the target sum for each pair $(a_i, b_i)$."
+    },
+    {
+      "step": 3,
+      "section_title": "Constructive Output Generation",
+      "explanation": "Iterate through each element of the permutation $a$, compute the corresponding element of $b$ as `ref - v[i]`, and print it immediately to the standard output."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$ per testcase",
+    "time_justification": "We iterate through the array of size $n$ twice: once to read the input and once to compute and print the output vector $b$. Thus, the time taken per test case is linear with respect to $n$. Across $t$ test cases, the total time complexity is $O(\textstyle\bigsum n)$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A vector $v$ of size $n$ is allocated for each test case to store the elements of permutation $a$. This requires linear extra space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise and optimal time/space complexity.",
+      "Clever application of constructive logic ensuring all sums are constant.",
+      "Straightforward implementation without redundant logic."
+    ],
+    "edge_cases_handled": [
+      "Handles $n = 1$ correctly where $1 + 1 = 2$.",
+      "Works for arbitrary permutations of numbers from $1$ to $n$."
+    ],
+    "best_practices_feedback": [
+      "Use `\n` instead of `endl` for faster I/O performance in competitive programming.",
+      "Add `ios_base::sync_with_stdio(false); cin.tie(NULL);` at the start of `main` to speed up standard streams."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "In-place Processing / Direct I/O",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing the entire array $v$ in a vector, we can read elements one by one and print $n + 1 - x$ directly on the fly. This reduces space complexity to $O(1)$ auxiliary space."
+    }
+  ],
+  "generated_at": 1786577727,
+  "model": "gemini-3.5-flash-lite"
+}

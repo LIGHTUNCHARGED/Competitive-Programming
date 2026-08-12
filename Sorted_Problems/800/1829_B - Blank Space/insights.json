@@ -1,0 +1,66 @@
+{
+  "title": "Single-Pass Linear Scan for Longest Consecutive Zeros",
+  "algorithm_tags": [
+    "Implementation",
+    "Linear Scan",
+    "Two Pointers"
+  ],
+  "approach_explanation": "The problem asks for the maximum length of consecutive zeros in a binary array. We can solve this efficiently by iterating through the array. Whenever we encounter a zero, we start counting the length of the contiguous block of zeros using a nested while loop. We track the maximum length encountered across all such blocks. Once a block of zeros ends (i.e., we hit a 1 or the end of the array), we compare its length with our running maximum and update it. This allows us to find the correct answer in a single forward pass per test case.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Array Reading",
+      "explanation": "Read the number of test cases `t`. For each test case, read the array size `n` and populate the vector `v` with `n` binary integers."
+    },
+    {
+      "step": 2,
+      "section_title": "Finding Consecutive Zeros",
+      "explanation": "Initialize `max_op = 0` to store the maximum consecutive zeros found. Iterate through the array using index `i`."
+    },
+    {
+      "step": 3,
+      "section_title": "Counting Contiguous Zeros and Updating Maximum",
+      "explanation": "When `v[i] == 0`, start a nested loop to count the number of consecutive zeros (`ops`) while `i < n` and `v[i] == 0`. Increment `i` accordingly. Update `max_op` with the maximum of its current value and `ops`."
+    },
+    {
+      "step": 4,
+      "section_title": "Output Result",
+      "explanation": "Print the maximum length of blank spaces found for the current testcase, followed by a newline."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each testcase, the outer loop runs at most $n$ times, and the inner while loop only increments the loop variable `i` when it encounters `0`. Each element of the array is visited at most twice across both loops. Thus, the time complexity per testcase is linear with respect to the array size $n$. Over $t$ testcases, total time complexity is $O(\\sum n)$, which is well within the 1-second limit for $\\sum n \\le 10^5$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A `std::vector<int>` of size $n$ is allocated for each testcase to store the elements. Hence, the auxiliary space complexity is $O(n)$ per test case."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clean and simple implementation that is easy to understand.",
+      "Handles multiple test cases correctly.",
+      "Efficient single-pass approach."
+    ],
+    "edge_cases_handled": [
+      "Arrays containing only 1s (returns 0).",
+      "Arrays containing only 0s (returns $n$).",
+      "Arrays of minimum size $n = 1$."
+    ],
+    "best_practices_feedback": [
+      "Use `std::ios_base::sync_with_stdio(false); cin.tie(NULL);` to speed up competitive programming I/O operations.",
+      "Avoid `#include<bits/stdc++.h>` in production codebases, though acceptable in competitive programming.",
+      "Consider declaring variables closer to their usage rather than at the top of scopes."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Space-Optimized Iteration (No Vector)",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing the array elements in a `std::vector`, we can read each integer on the fly in a single loop, maintaining the current count of consecutive zeros and the maximum count. This reduces space complexity from $O(n)$ to $O(1)$."
+    }
+  ],
+  "generated_at": 1786577722,
+  "model": "gemini-3.5-flash-lite"
+}

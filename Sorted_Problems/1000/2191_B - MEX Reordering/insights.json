@@ -1,0 +1,60 @@
+{
+  "title": "MEX Reordering Frequency Check",
+  "algorithm_tags": [
+    "Greedy",
+    "Constructive Algorithms",
+    "Counting"
+  ],
+  "approach_explanation": "The problem asks whether we can reorder an array such that for every prefix $1 \to i$ and suffix $i + 1 \to n$, the MEX of the prefix is different from the MEX of the suffix. By analyzing the properties of MEX for prefixes and suffixes, it turns out that a valid reordering always exists unless the counts of $0$ and $1$ restrict it. Specifically, if there are no zeros, the MEX of any subarray containing elements will always be $0$, making prefix and suffix MEX values identical. If there are multiple zeros and no ones, we can also get trapped. Through frequency analysis, the condition for a valid reordering simplifies to checking whether we have both zeros and ones present in the array, or if there is exactly one zero and any number of other elements.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization",
+      "explanation": "Read the number of test cases $t$ and loop over each test case."
+    },
+    {
+      "step": 2,
+      "section_title": "Frequency Counting",
+      "explanation": "Read the array size $n$, then iterate through the $n$ input elements to count the occurrences of $0$ (stored in `zeros`) and $1$ (stored in `ones`)."
+    },
+    {
+      "step": 3,
+      "section_title": "Condition Evaluation and Output",
+      "explanation": "Check if `(zeros && ones) || (zeros == 1)`. If true, output \"YES\"; otherwise, output \"NO\"."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through the array of size $n$ once to count the occurrences of $0$ and $1$. With $t$ testcases, the total time complexity is $O(\text{sum of } n)$, which easily fits within the 1-second time limit for $\text{sum of } n \text{ up to } 500 \times 100 = 50,000$.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "Only a few scalar variables (`t`, `n`, `zeros`, `ones`, `num`) are used to process the input on the fly, requiring constant extra memory."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely clean and concise implementation.",
+      "Optimal $O(N)$ time complexity and $O(1)$ space complexity.",
+      "Handles multiple test cases correctly."
+    ],
+    "edge_cases_handled": [
+      "Arrays containing only zeros.",
+      "Arrays containing no zeros.",
+      "Arrays containing both zeros and ones."
+    ],
+    "best_practices_feedback": [
+      "Use `\\n` instead of `endl` for faster I/O in competitive programming.",
+      "Add `ios_base::sync_with_stdio(false); cin.tie(NULL);` at the beginning of `main` for optimized standard streams."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Standard I/O Acceleration",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Using `cin.tie(NULL)` and `ios_base::sync_with_stdio(false)` prevents potential Time Limit Exceeded (TLE) issues when dealing with large input/output volumes, though unnecessary for $N \ne 100$."
+    }
+  ],
+  "generated_at": 1786577647,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,65 @@
+{
+  "title": "Greedy Parity Analysis for Button Game",
+  "algorithm_tags": [
+    "Greedy",
+    "Games",
+    "Math"
+  ],
+  "approach_explanation": "The game consists of three types of buttons: $a$ exclusive to Anna, $b$ exclusive to Katie, and $c$ shared buttons. Anna moves first. Intuitively, any shared button $c$ used by Anna effectively prevents Katie from using it and vice versa, which is equivalent to giving half of the shared buttons (rounded up for the first player) to Anna and the rest to Katie. Alternatively, we can view the shared buttons as a common pool that extends the advantage of whoever has more exclusive buttons or dictates the winner based on parity if exclusive buttons are equal. Formally, Anna has an advantage of $a - b$ in exclusive buttons. If $a > b$, Anna wins regardless of $c$. If $a < b$, Katie wins regardless of $c$. If $a == b$, the winner is determined by the parity of $c$: if $c$ is odd, Anna goes last on the shared buttons and wins ('First'); if $c$ is even, Katie goes last and wins ('Second').",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Number of Test Cases",
+      "explanation": "Reads the integer $t$ representing the number of test cases to process."
+    },
+    {
+      "step": 2,
+      "section_title": "Read Test Case Inputs",
+      "explanation": "For each testcase, read three integers $a$, $b$, and $c$ denoting the number of buttons unique to Anna, unique to Katie, and shared, respectively."
+    },
+    {
+      "step": 3,
+      "section_title": "Compare Exclusive Buttons ($a$ vs $b$)",
+      "explanation": "If $a > b$, Anna has strictly more exclusive buttons than Katie and will win ('First'). If $a < b$, Katie has more and wins ('Second')."
+    },
+    {
+      "step": 4,
+      "section_title": "Handle Equality and Parity of Shared Buttons",
+      "explanation": "If $a == b$, the shared buttons $c$ decide the winner. If $c$ is odd, Anna makes the last move among the shared buttons, leaving Katie with no moves, so Anna wins ('First'). If $c$ is even, Katie makes the last move, so Katie wins ('Second')."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(t)$",
+    "time_justification": "The solution processes each of the $t$ test cases in $O(1)$ constant time using simple conditional checks and arithmetic.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "Only a few scalar integer variables are allocated per test case, using constant extra space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise and directly implements the optimal game strategy.",
+      "Optimal time and space complexities.",
+      "Handles all game outcomes via clear conditions."
+    ],
+    "edge_cases_handled": [
+      "Equal counts of exclusive buttons ($a = b$)",
+      "Large inputs up to $10^9$ handled correctly via standard integer types (though values are only compared, not summed)",
+      "Odd and even shared button counts"
+    ],
+    "best_practices_feedback": [
+      "Use '\\n' instead of 'endl' to avoid unnecessary stream flushing and improve I/O performance in competitive programming.",
+      "Include fast I/O optimization (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for safety against TLE on large input volumes."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Arithmetic Comparison",
+      "time_complexity": "$O(t)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Can express the logic in a more compact arithmetic form such as comparing $a + (c + 1) / 2$ with $b + c / 2$, though the current conditional branches are equally efficient and arguably more readable."
+    }
+  ],
+  "generated_at": 1786577757,
+  "model": "gemini-3.5-flash-lite"
+}

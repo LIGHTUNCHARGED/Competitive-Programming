@@ -1,0 +1,70 @@
+{
+  "title": "Constructive Greedy Approach for Forbidden Integer",
+  "algorithm_tags": [
+    "Constructive Algorithms",
+    "Math",
+    "Greedy"
+  ],
+  "approach_explanation": "The problem asks whether we can sum numbers from 1 to k, excluding x, to reach n. If x != 1, we can simply use 1 exclusively, since 1 is not forbidden. If x == 1, we cannot use 1. If k == 1, no numbers are available, so the answer is NO. If k >= 2 and n is even, we can use n/2 twos. If n is odd and k >= 3, we can use a single 3 and (n - 3) / 2 twos. If n is odd and k == 2, it is impossible since we only have 2 available and cannot form an odd sum.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Test Cases",
+      "explanation": "Read the number of test cases `t` and loop through each test case parsing `n`, `k`, and `x`."
+    },
+    {
+      "step": 2,
+      "section_title": "Case 1: x != 1",
+      "explanation": "If `x` is not 1, 1 is available. We can trivially form any sum `n` using `n` ones. Output YES, `n`, followed by `n` ones."
+    },
+    {
+      "step": 3,
+      "section_title": "Case 2: x == 1 and k == 1",
+      "explanation": "If `x == 1` and `k == 1`, no valid integers remain in the range [1, k] except 1, which is forbidden. Thus, output NO."
+    },
+    {
+      "step": 4,
+      "section_title": "Case 3: x == 1 and n is even",
+      "explanation": "If `n` is even and `x == 1`, we can form `n` using `n / 2` copies of the integer 2."
+    },
+    {
+      "step": 5,
+      "section_title": "Case 4: x == 1 and n is odd",
+      "explanation": "If `n` is odd and `x == 1`, we check `k`. If `k == 2`, it's impossible because we can only use 2s to form an even sum. If `k >= 3`, we can use one 3 and `(n - 3) / 2` twos."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, the solution constructs and prints the answer using at most $N$ elements. Across $t$ testcases, the total time is proportional to the sum of $N$, which is bounded by $t \times N \\\u2264 100 \times 100 = 10^4$ operations, well within the 2-second time limit.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "The solution only uses a few scalar variables for input and loops, directly streaming the output without allocating auxiliary arrays or containers."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Handles all edge cases systematically (e.g., k=1, x=1, odd/even n).",
+      "Direct stream outputs keep memory consumption constant at $O(1)$.",
+      "Clean branching structure reflecting case analysis."
+    ],
+    "edge_cases_handled": [
+      "n is odd with x=1 and k=2 (impossible case handled correctly).",
+      "k=1 with x=1 (no elements available handled correctly).",
+      "n is even with x=1 (handled with twos)."
+    ],
+    "best_practices_feedback": [
+      "Prefer `\\n` instead of `endl` for competitive programming to prevent performance slowdowns due to stream flushing.",
+      "Consider fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for larger constraints."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Fast I/O Optimization",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Adding `cin.tie(NULL)` speeds up standard input/output streams significantly for large test cases."
+    }
+  ],
+  "generated_at": 1786577742,
+  "model": "gemini-3.5-flash-lite"
+}

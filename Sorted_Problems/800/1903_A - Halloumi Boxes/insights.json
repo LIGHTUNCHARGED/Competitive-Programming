@@ -1,0 +1,65 @@
+{
+  "title": "Sorting via Subarray Reversals",
+  "algorithm_tags": [
+    "Sorting",
+    "Greedy",
+    "Ad-hoc"
+  ],
+  "approach_explanation": "The problem asks whether an array of size $n$ can be sorted in non-decreasing order by repeatedly reversing subarrays of length at most $k$. If the array is already sorted, the answer is trivially \"YES\". If the array is not sorted, we can always reverse any adjacent pair of elements if $k \\\\ge 2$. By repeatedly reversing adjacent pairs (similar to Bubble Sort), we can generate any permutation of the array. Thus, if $k \\\\ge 2$, any unsorted array can be sorted. The only case where we cannot sort an unsorted array is when $k = 1$, because a subarray of length $1$ cannot be reversed to change any order.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Fast I/O Setup",
+      "explanation": "Standard competitive programming boilerplate to accelerate input and output operations using cin and cout."
+    },
+    {
+      "step": 2,
+      "section_title": "Test Case Loop and Input Reading",
+      "explanation": "Reads the number of test cases $t$, and for each test case reads $n$ (number of elements) and $k$ (maximum reverse length)."
+    },
+    {
+      "step": 3,
+      "section_title": "Sortedness Check",
+      "explanation": "Iterates through the array elements, keeping track of the previous element to verify if the entire array is already sorted in non-decreasing order."
+    },
+    {
+      "step": 4,
+      "section_title": "Decision Logic",
+      "explanation": "Calls the `solve` function which outputs \"YES\" if the array is already sorted or if $k \\\\ge 2$, and \"NO\" if the array is not sorted and $k = 1$."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each test case, we iterate through the array of size $n$ once to check if it is sorted. With $t$ test cases, the total time complexity is $O(\\\\sum n)$, which is bounded by $O(t \\\\cdot \\\\max(n))$ i.e., $100 \\\\times 100 = 10^4$ operations, easily fitting well within the 1-second time limit.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "The algorithm processes inputs on-the-fly without storing the array elements in any secondary data structures like vectors or arrays, using only a constant number of scalar variables."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Optimal $O(n)$ time complexity and $O(1)$ auxiliary space.",
+      "Streams inputs on-the-fly, avoiding unnecessary memory allocations.",
+      "Clean and modular function design separating I/O processing from the decision logic."
+    ],
+    "edge_cases_handled": [
+      "$n = 1$ (trivially sorted array)",
+      "$k = 1$ with an unsorted array (correctly outputs \"NO\")",
+      "Arrays with duplicate elements (correctly recognized as non-decreasing/sorted)"
+    ],
+    "best_practices_feedback": [
+      "Use `\\n` instead of `endl` to avoid performance-draining stream flushes.",
+      "Ensure all variables are properly initialized before usage."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Standard Array Storage with STL Sort or Check",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Storing elements in a std::vector allows using std::is_sorted, which is more idiomatic and concise in C++, but uses $O(n)$ auxiliary memory."
+    }
+  ],
+  "generated_at": 1786577824,
+  "model": "gemini-3.5-flash-lite"
+}

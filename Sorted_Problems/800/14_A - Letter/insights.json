@@ -1,0 +1,59 @@
+{
+  "title": "Bounding Box Extraction for Shaded Grid Squares",
+  "algorithm_tags": [
+    "Implementation",
+    "Bounding Box",
+    "Simulation"
+  ],
+  "approach_explanation": "The problem requires finding the smallest bounding box containing all shaded squares ('*') in a given 2D grid of size $n \\times m$. The approach reads the grid and records the coordinates $(j, i)$ of every shaded square. It then iterates over these coordinates to find the minimum and maximum row indices ($min\\_y$, $max\\_y$) and column indices ($min\\_x$, $max\\_x$). Finally, it extracts and prints the subgrid bounded by these extreme coordinates.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Coordinate Collection",
+      "explanation": "Reads dimensions $n$ and $m$, initializes the grid, and iterates through each cell. When a shaded square ('*') is encountered, its column and row indices are stored as a pair in a vector."
+    },
+    {
+      "step": 2,
+      "section_title": "Bounding Box Calculation",
+      "explanation": "Iterates through the collected coordinates of the shaded squares to find the minimum and maximum horizontal ($x$) and vertical ($y$) limits."
+    },
+    {
+      "step": 3,
+      "section_title": "Subgrid Extraction and Printing",
+      "explanation": "Loops through the row range from $min\\_y$ to $max\\_y$ and column range from $min\\_x$ to $max\\_x$, printing the characters of the extracted bounding box row by row."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n \\cdot m)$",
+    "time_justification": "The algorithm reads the entire $n \\times m$ grid once. Finding the minimum and maximum coordinates takes $O(k)$ time where $k$ is the number of shaded squares ($k \\le n \\cdot m$). Printing the final subgrid takes proportional time to its area, which is bounded by $O(n \\cdot m)$. Thus, overall time complexity is dominated by reading the input matrix.",
+    "space_complexity": "$O(n \\cdot m)$",
+    "space_justification": "Storage is allocated for the 2D vector of size $n \\times m$ to keep the grid in memory, along with a vector of pairs storing at most $n \\cdot m$ coordinate points."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clear and straightforward logic for finding bounding boxes.",
+      "Handles varying input sizes up to the problem constraints smoothly."
+    ],
+    "edge_cases_handled": [
+      "Guaranteed at least one shaded square per problem constraints.",
+      "Grid dimensions can be as small as $1 \\times 1$."
+    ],
+    "best_practices_feedback": [
+      "Avoid using `#include <bits/stdc++.h>` in production code; prefer explicit headers like `<iostream>` and `<vector>`.",
+      "Use `\n` instead of `endl` for faster I/O performance by avoiding unnecessary stream flushes.",
+      "Variables can be named more intuitively (e.g., matching standard $(row, col)$ notation instead of mapping $x$ to column and $y$ to row)."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "On-the-fly Bounding Box Tracking",
+      "time_complexity": "$O(n \\cdot m)$",
+      "space_complexity": "$O(n \\cdot m)$",
+      "tradeoffs": "Instead of storing all coordinates in a vector and finding extrema in a second pass, we can maintain $min\\_row, max\\_row, min\\_col, max\\_col$ while reading the input. This avoids the overhead of the vector of pairs, keeping auxiliary space logic cleaner, though overall memory remains governed by the grid storage."
+    }
+  ],
+  "generated_at": 1786577700,
+  "model": "gemini-3.5-flash-lite"
+}

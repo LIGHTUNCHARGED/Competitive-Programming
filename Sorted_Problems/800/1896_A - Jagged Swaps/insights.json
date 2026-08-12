@@ -1,0 +1,59 @@
+{
+  "title": "Invariant Property Observation for Permutation Swaps",
+  "algorithm_tags": [
+    "Greedy",
+    "Observation",
+    "Math"
+  ],
+  "approach_explanation": "The problem permits swapping $a_i$ and $a_{i+1}$ if $a_{i-1} < a_i$ and $a_i > a_{i+1}$. Notice that the operation can only be applied at indices $2 \biguplus n-1$ (1-indexed). This implies that the very first element $a_1$ and the very last element $a_n$ can never be directly involved as the moving element of the swap because $i$ cannot be $1$ or $n$. Specifically, the first element $a_1$ can never move to the right because no index allows a swap where the first element is the middle element. Therefore, if $a_1 \neq 1$, $1$ can never be moved to its correct position at the front of the permutation, making it impossible to sort. Conversely, if $a_1 = 1$, we can always bubble elements to their correct sorted positions using bubble sort-like logic with the available operation.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop Setup",
+      "explanation": "Reads the number of test cases $t$ and loops through each test case."
+    },
+    {
+      "step": 2,
+      "section_title": "Reading Input Permutation",
+      "explanation": "Reads the size $n$ of the permutation and the $n$ elements into a vector."
+    },
+    {
+      "step": 3,
+      "section_title": "Checking Invariant Condition",
+      "explanation": "Checks if the first element of the array is $1$. If numbers[0] != 1, outputs 'NO', otherwise outputs 'YES'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each test case, we read $n$ elements in a single pass of length $n$. Across $t$ test cases, the total time complexity is $O(\\sum n)$, which is at most $5000 \\times 10 = 50,000$ operations, well within the 1-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A vector of size $n$ is allocated for each test case to store the permutation. Since $n \\le 10$, this uses negligible memory."
+  },
+  "code_quality": {
+    "score": 95,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely concise and hits the core mathematical invariant of the problem immediately.",
+      "Optimal time and space complexity."
+    ],
+    "edge_cases_handled": [
+      "Handles minimum constraint $n = 3$.",
+      "Handles already sorted permutations.",
+      "Handles completely reversed permutations."
+    ],
+    "best_practices_feedback": [
+      "Use '\\n' instead of 'endl' for faster I/O in competitive programming.",
+      "Include 'ios_base::sync_with_stdio(false); cin.tie(NULL);' for optimal competitive performance."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Input Check without Vector Storage",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing the entire permutation in a vector, we can read the first element and consume the rest of the inputs on the fly, reducing auxiliary space complexity to $O(1)$."
+    }
+  ],
+  "generated_at": 1786577805,
+  "model": "gemini-3.5-flash-lite"
+}

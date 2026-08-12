@@ -1,0 +1,64 @@
+{
+  "title": "Greedy Power Increase with Sorting",
+  "algorithm_tags": [
+    "Greedy",
+    "Sorting"
+  ],
+  "approach_explanation": "The problem requires maximizing OtterZ's combat power 'c' by either defeating monsters with power at most 'c' or using 'k' flip flops to increase a monster's power before defeating it. The optimal strategy dictates sorting the monsters' powers in non-decreasing order. By processing smaller monsters first, OtterZ can accumulate combat power efficiently. For each monster with power 'a_i <= c', if OtterZ has enough flip flops to increase the monster's power up to the current combat power threshold or boost it significantly, we should use 'k' greedily. Specifically, if 'c >= a_i + k', we can dump all remaining flip flops onto this monster and double its contributed value. Otherwise, we partially spend our flip flops to increase the monster's power to match 'c', effectively doubling 'c'. Once a monster's power exceeds 'c', no further processing helps since we can neither defeat it nor use flip flops to bridge the gap if 'c' is strictly smaller than the required baseline without defeating earlier monsters first.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Initialization",
+      "explanation": "Reads the number of test cases 't'. For each test case, reads 'n' (number of monsters), 'c' (initial combat power), and 'k' (number of flip flops), followed by the array of monster combat powers."
+    },
+    {
+      "step": 2,
+      "section_title": "Sorting Monster Powers",
+      "explanation": "Sorts the 'power' vector in ascending order to ensure we process smaller monsters first, maximizing the chance of defeating them and increasing 'c'."
+    },
+    {
+      "step": 3,
+      "section_title": "Greedy Iteration and Flip Flop Utilization",
+      "explanation": "Iterates through the sorted monsters. If a monster can be defeated (`power[i] <= c`), it checks whether all remaining flip flops 'k' can be applied to this single monster. If `c >= power[i] + k`, all flip flops are added to this monster's power before adding it to 'c', and 'k' becomes 0. Otherwise, 'k' is partially used to raise the monster's power to 'c', doubling the current combat power 'c'."
+    },
+    {
+      "step": 4,
+      "section_title": "Early Termination",
+      "explanation": "If the current monster's power exceeds 'c', the loop breaks since subsequent monsters are even larger and cannot be defeated or manipulated under current constraints."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n \\log n)$",
+    "time_justification": "For each testcase, sorting the monster power array takes $O(n \\log n)$ time. The linear scan takes $O(n)$ time. Summing across all test cases, the total time complexity is $O(\\sum n \\log n)$, well within the 1-second time limit for $\\sum n \\le 500 \\times 100 = 50000$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A vector of size 'n' is allocated per test case to store the monster powers, requiring $O(n)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clean and concise implementation.",
+      "Sorting strategy correctly captures the greedy choice property.",
+      "Handles large constraints up to $10^9$ using 64-bit integers (`long long`)."
+    ],
+    "edge_cases_handled": [
+      "Monsters with power greater than initial 'c' (handled via early break).",
+      "Zero flip flops available (`k = 0`).",
+      "Very large values of 'c' and 'k' up to $10^9$ without overflow issues."
+    ],
+    "best_practices_feedback": [
+      "Prefer `\n` over `endl` for faster I/O in competitive programming.",
+      "Consider using fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for safety against tight time limits."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Greedy with Priority Queue / Min-Heap",
+      "time_complexity": "$O(n \\log n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Using a min-heap gives the same asymptotic complexity but incurs unnecessary overhead compared to simple sorting since all elements are processed sequentially anyway."
+    }
+  ],
+  "generated_at": 1786577845,
+  "model": "gemini-3.5-flash-lite"
+}

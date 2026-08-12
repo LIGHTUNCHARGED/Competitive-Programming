@@ -1,0 +1,66 @@
+{
+  "title": "Minimum Operations to Break Array Sorting",
+  "algorithm_tags": [
+    "Greedy",
+    "Math",
+    "Brute Force"
+  ],
+  "approach_explanation": "The problem asks for the minimum operations required to make an array not sorted. An array is sorted if $a_1 \\leq a_2 \\leq \\dots \\leq a_n$. If the array is already not sorted, the answer is $0$. Otherwise, the easiest way to break the sorted property is to violate the non-decreasing order between some adjacent pair $(a_{i}, a_{i+1})$. Increasing the left prefix up to index $i$ by $1$ and decreasing the right suffix from index $i+1$ by $1$ changes the difference $a_{i+1} - a_i$ by $2$. Specifically, applying this operation $k$ times will decrease the difference between $a_{i}$ and $a_{i+1}$ by $2k$. To make $a_{i} > a_{i+1}$, we need the new difference to be strictly less than $0$. Therefore, if the original difference is $d = a_{i+1} - a_i$, the minimum number of operations required for this pair is $\\lfloor d / 2 \\rfloor + 1$. We take the minimum of this value over all adjacent pairs.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Test Cases",
+      "explanation": "Reads the number of test cases $t$ and enters a loop to process each test case individually."
+    },
+    {
+      "step": 2,
+      "section_title": "Read Array Input",
+      "explanation": "Reads the length $n$ and the elements of the array $a$ into a vector of integers."
+    },
+    {
+      "step": 3,
+      "section_title": "Find Minimum Adjacent Difference",
+      "explanation": "Iterates through adjacent elements to check if the array is already unsorted ($a[i] < a[i-1]$). Simultaneously, it tracks the minimum difference $min\\_diff$ between any adjacent elements $a[i] - a[i-1]$."
+    },
+    {
+      "step": 4,
+      "section_title": "Compute and Print Result",
+      "explanation": "If $min\\_diff < 0$, the array is already unsorted, so output $0$. Otherwise, output $(min\\_diff / 2) + 1$, which represents the minimum number of operations needed to invert the closest adjacent pair."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through the array of length $N$ once to read the input and once to find the minimum adjacent difference. Summing $N$ over all test cases is $\\leq 500$, yielding an optimal time complexity well within the 1-second limit.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "A vector of size $N$ is allocated to store the elements for each test case."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely concise and clean implementation.",
+      "Handles the case where the array is already unsorted correctly by checking negative differences.",
+      "Uses optimal linear scan time complexity."
+    ],
+    "edge_cases_handled": [
+      "Arrays that are already unsorted ($0$ operations).",
+      "Arrays with duplicate adjacent elements ($1 / 2 + 1 = 1$ operation).",
+      "Minimum array length of $N = 2$."
+    ],
+    "best_practices_feedback": [
+      "Prefer using `std::min` instead of manual `if` comparisons for cleaner code.",
+      "Use `\n` instead of `std::endl` for faster output flushing.",
+      "Use `long long` for variables if values can potentially overflow, though $10^9$ fits within standard 32-bit signed integers here."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Constant Space Stream Processing",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing the entire array in a vector, we can read elements on the fly while tracking the previous element, reducing the auxiliary space complexity to $O(1)$."
+    }
+  ],
+  "generated_at": 1786577747,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,70 @@
+{
+  "title": "Minimum Fuel Tank Capacity for Line Trip",
+  "algorithm_tags": [
+    "Greedy",
+    "Array",
+    "Simulation"
+  ],
+  "approach_explanation": "To solve the problem, we need to find the minimum tank capacity required to travel from 0 to x and back to 0, using only the given gas stations and the start/end points as refueling spots. The trip consists of traversing adjacent segments between consecutive gas stations, as well as segments from 0 to the first station, and from the last station to x and back. Notice that on the return trip from x to 0, the segments traversed are the exact reverse of the forward trip. Therefore, any adjacent gap between two stations $a_i$ and $a_{i+1}$ must be traversable in both directions, which simply requires a tank capacity of at least $a_{i+1} - a_i$. Similarly, the first segment from 0 to $a_1$ is traversed forward and backward, requiring capacity $a_1$. However, the final stretch from the last station $a_n$ to $x$ and back to $a_n$ is unique: we go from $a_n$ to $x$ and then back from $x$ to $a_n$, meaning the car must cover a distance of $x - a_n$ without refueling *after* $a_n$ until it reaches $a_n$ again on the way back. Thus, the required tank capacity for the final segment is $2 \times (x - a_n)$. The optimal capacity is simply the maximum of all adjacent differences and twice the distance from the last station to $x$.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Test Cases and Input",
+      "explanation": "Read the number of test cases $t$, and for each test case, read $n$ (the number of stations) and $x$ (the destination coordinate), followed by the $n$ station coordinates."
+    },
+    {
+      "step": 2,
+      "section_title": "Initialize Maximum Distance",
+      "explanation": "Set the initial maximum distance `max_dist` to the distance from 0 to the first station, `stations[0]`, since the car starts at 0 and must reach the first station."
+    },
+    {
+      "step": 3,
+      "section_title": "Iterate Over Intermediate Station Gaps",
+      "explanation": "Loop through all adjacent station pairs from index $0$ to $n-2$ and find the difference `stations[i+1] - stations[i]`. Update `max_dist` with the maximum difference encountered."
+    },
+    {
+      "step": 4,
+      "section_title": "Account for the Final Segment",
+      "explanation": "Calculate twice the distance from the last station to $x$ (`2 * (x - stations[n-1])`) because the car must travel from the last station to $x$ and return back to the last station without any intermediate stations in that range. Update `max_dist` with this value."
+    },
+    {
+      "step": 5,
+      "section_title": "Print the Result",
+      "explanation": "Output the final `max_dist` for the current test case."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each of the $t$ test cases, we iterate through the array of size $n$ a constant number of times to read input and compute differences. Given $\\sum n \\le 50 \\times 1000 = 50,000$, the overall time complexity is linear in terms of the total number of stations across all test cases, executing well within the 2-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A vector of size $n$ is allocated for each test case to store the station coordinates, requiring $O(n)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Concise and easy to follow implementation.",
+      "Directly translates the greedy condition into clear instructions.",
+      "Handles the special case of the final segment to $x$ correctly."
+    ],
+    "edge_cases_handled": [
+      "Single station cases ($n = 1$).",
+      "Smallest possible destination ($x = 2$).",
+      "Maximum constraints on $n$ and $x$."
+    ],
+    "best_practices_feedback": [
+      "Use `\n` instead of `endl` for faster I/O operations in C++.",
+      "Add `ios_base::sync_with_stdio(false); cin.tie(NULL);` at the beginning of `main` for competitive programming efficiency."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Constant Space Optimization",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing all station coordinates in a vector, we can process them on the fly or keep track of the previous station variable, reducing the auxiliary space complexity to $O(1)$. However, given $n \\le 50$, vector allocation overhead is completely negligible."
+    }
+  ],
+  "generated_at": 1786577820,
+  "model": "gemini-3.5-flash-lite"
+}

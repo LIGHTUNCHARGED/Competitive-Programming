@@ -1,0 +1,59 @@
+{
+  "title": "Greedy Announcement Distribution with Cost Threshold",
+  "algorithm_tags": [
+    "Greedy",
+    "Sorting"
+  ],
+  "approach_explanation": "The problem asks for the minimum cost to notify all $n$ residents. Pak Chanek can either notify a resident directly with cost $p$, or a resident can notify up to $a_i$ other residents at cost $b_i$ per share. To minimize the cost, we should always prefer using residents with the cheapest sharing cost $b_i$, provided $b_i < p$. If the cheapest available sharing cost is greater than or equal to $p$, it is always cheaper or equal to directly notify the remaining residents using $p$. Thus, we can sort the residents based on their sharing cost $b_i$ in ascending order and greedily fulfill the required notifications using the cheapest sharing options until all residents are notified or no more beneficial sharing options remain.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Reading Input and Initialization",
+      "explanation": "Read the number of test cases $t$, and for each test case read $n$ and $p$, along with arrays $a$ (maximum shares per person) and $b$ (cost per share)."
+    },
+    {
+      "step": 2,
+      "section_title": "Sorting Residents by Cost",
+      "explanation": "Create an index array and sort it based on the corresponding values in array $b$ in ascending order using a custom comparator."
+    },
+    {
+      "step": 3,
+      "section_title": "Greedy Cost Accumulation",
+      "explanation": "Initialize the cost with $p$ (assuming at least one person must be directly notified by Pak Chanek) and count = 1. Iterate through the sorted indices and use residents with $b[idx] < p$ to cover as many remaining people as possible. If $b[idx] \nmid p$, break and pay $p$ for all remaining unnotified residents."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n \to n \\log n)$",
+    "time_justification": "Reading the input takes $O(n)$ time. Sorting the indices of size $n$ takes $O(n \\log n)$ time. The greedy loop iterates at most $n$ times. Summing over all test cases, the total time complexity is bounded by $O(\\sum n \\log n)$, which easily fits within the 1-second time limit for $\\sum n \\leq 10^5$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Vectors $a$, $b$, and $min\\_index$ each take $O(n)$ space to store the attributes for the residents."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Efficient use of sorting and greedy choice property.",
+      "Handles large constraints appropriately using `long long` for cost calculations to prevent integer overflow.",
+      "Clear modular flow per test case."
+    ],
+    "edge_cases_handled": [
+      "$n = 1$ case is handled correctly.",
+      "$p$ being very small or very large compared to $b_i$ elements.",
+      "Early termination when all residents are notified."
+    ],
+    "best_practices_feedback": [
+      "Use `\n` instead of `endl` to avoid unnecessary stream flushing overhead in competitive programming.",
+      "Fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) can be added for extra safety against TLE."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Standard Greedy with Structs",
+      "time_complexity": "$O(n \\log n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Instead of sorting an index array, one can sort a vector of custom structures/pairs containing $(b_i, a_i)$, which simplifies memory layout and code readability slightly."
+    }
+  ],
+  "generated_at": 1786577619,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,64 @@
+{
+  "title": "Greedy Interval Analysis for Cover in Water",
+  "algorithm_tags": [
+    "Greedy",
+    "String Manipulation",
+    "Case Analysis"
+  ],
+  "approach_explanation": "The problem asks for the minimum number of type-1 actions (placing water directly) to fill all empty cells ('.'). Action 2 allows moving water, which means if there is any contiguous block of at least three empty cells (e.g., '...'), we can place water in the two endpoints and let the middle cell fill automatically via the propagation rule. Using action 2, this single water source can then be shifted to fill any other empty cell in the row. Thus, if a block of 3 or more consecutive empty cells exists, the answer is always 2. If no such block exists, but there are some empty cells, every empty cell must be filled manually using action 1, so the answer is simply the total count of empty cells. If there are no empty cells, the answer is 0.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Test Case Loop",
+      "explanation": "Reads the number of test cases $t$, and for each test case, reads the string length $n$ and the string $s$ representing the grid."
+    },
+    {
+      "step": 2,
+      "section_title": "Checking for Triple Consecutive Empty Cells",
+      "explanation": "Iterates through the string to check if any three consecutive cells are empty ('...'). If such a pattern is detected, the minimum type-1 operations required drops to 2 immediately, and we break out of the loop."
+    },
+    {
+      "step": 3,
+      "section_title": "Fallback Counter for Scattered Empty Cells",
+      "explanation": "If no triple consecutive empty cells are found, the algorithm counts the total number of empty cells ('.') in the string, assuming each must be filled with a distinct type-1 action."
+    },
+    {
+      "step": 4,
+      "section_title": "Result Output",
+      "explanation": "Outputs the computed minimum number of actions for the current test case."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each of the $t$ test cases, we perform a single linear scan of length $n$ over the string $s$. Given $t \\\\le 100$ and $n \\\\le 100$, the total number of operations is well within the 1-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Space is used to store the input string $s$ of length $n$ for each test case."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clean and concise implementation of the core greedy strategy.",
+      "Efficient early exit as soon as a 3-length empty segment is encountered."
+    ],
+    "edge_cases_handled": [
+      "Strings with no empty cells (all '#').",
+      "Strings with length less than 3.",
+      "Strings with isolated pairs or single empty cells."
+    ],
+    "best_practices_feedback": [
+      "Use `std::string::find(\"...\")` for a more idiomatic and concise check for triple consecutive empty cells.",
+      "Include fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming safety."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Substring Search Optimization",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Using `s.find(\"...\") != string::npos` makes the code significantly shorter and less prone to off-by-one index boundary checks."
+    }
+  ],
+  "generated_at": 1786577814,
+  "model": "gemini-3.5-flash-lite"
+}

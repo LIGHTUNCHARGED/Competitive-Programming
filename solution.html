@@ -436,16 +436,60 @@
                 return;
             }
 
-            btn.disabled = true;
-            btnText.textContent = "Requesting Gemini...";
+            let pat = localStorage.getItem("GITHUB_PAT");
+            let geminiKey = localStorage.getItem("GEMINI_API_KEY");
 
+            if (!pat && !geminiKey) {
+                const tokenInput = prompt(
+                    "💡 To generate AI Insights dynamically:\n\n" +
+                    "Option A: Enter a GitHub Personal Access Token (PAT) to trigger the automated GitHub Actions pipeline.\n" +
+                    "Option B: Enter your Gemini API Key to generate insights instantly in your browser.\n\n" +
+                    "Paste your Token or Gemini API Key below:"
+                );
+
+                if (!tokenInput || !tokenInput.trim()) {
+                    return;
+                }
+
+                const cleaned = tokenInput.trim();
+                if (cleaned.startsWith("ghp_") || cleaned.startsWith("github_pat_")) {
+                    pat = cleaned;
+                    localStorage.setItem("GITHUB_PAT", pat);
+                } else {
+                    geminiKey = cleaned;
+                    localStorage.setItem("GEMINI_API_KEY", geminiKey);
+                }
+            }
+
+            btn.disabled = true;
+            btnText.textContent = "Analyzing solution with Gemini...";
+
+            // Strategy 1: If Gemini API Key is stored, generate directly in browser for instant 2s rendering
+            if (geminiKey) {
+                try {
+                    const data = await generateInsightsClientSide(folderPath, geminiKey);
+                    renderAIInsights(data);
+                    alert("✨ AI Insights generated instantly in browser!");
+                    return;
+                } catch (err) {
+                    console.warn("Client-side Gemini generation failed:", err);
+                    alert("Direct Gemini call failed: " + err.message + "\nRetrying via GitHub Actions dispatch...");
+                }
+            }
+
+            // Strategy 2: Trigger GitHub Repository Dispatch via GitHub PAT
             try {
+                const headers = {
+                    "Accept": "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                };
+                if (pat) {
+                    headers["Authorization"] = `Bearer ${pat}`;
+                }
+
                 const response = await fetch("https://api.github.com/repos/LIGHTUNCHARGED/Competitive-Programming/dispatches", {
                     method: "POST",
-                    headers: {
-                        "Accept": "application/vnd.github+json",
-                        "Content-Type": "application/json"
-                    },
+                    headers: headers,
                     body: JSON.stringify({
                         event_type: "generate_insight",
                         client_payload: {
@@ -456,16 +500,67 @@
                 });
 
                 if (response.ok || response.status === 204) {
-                    alert("✨ AI Insights generation pipeline triggered! Gemini will analyze the code and update the site shortly.");
+                    alert("✨ AI Insights generation pipeline triggered! Gemini is analyzing the code in GitHub Actions and will commit the results shortly.");
+                } else if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem("GITHUB_PAT");
+                    alert("Authentication error (HTTP " + response.status + "). Please check your GitHub PAT permissions (must have 'repo' / 'contents:write' scope).");
                 } else {
-                    alert("Notice: Pipeline dispatch sent to GitHub Actions.");
+                    alert("GitHub API response: " + response.status + " " + response.statusText);
                 }
             } catch (err) {
-                alert("Unable to trigger online dispatch. Run 'python generate_insights.py --path \"" + folderPath + "\"' locally.");
+                alert("Unable to trigger online dispatch: " + err.message);
             } finally {
                 btn.disabled = false;
                 btnText.textContent = "Generate AI Insights";
             }
+        }
+
+        async function generateInsightsClientSide(folderPath, apiKey) {
+            const readmeEl = document.getElementById("readme-content");
+            const readmeText = readmeEl ? readmeEl.innerText : "";
+            const codeText = rawCode || "";
+            
+            const promptText = `
+### PROBLEM STATEMENT
+${readmeText}
+
+### SOLUTION CODE
+${codeText}
+`;
+
+            const systemInstruction = `You are a World-Class Competitive Programmer. Analyze the problem statement and solution code, then output a JSON object adhering strictly to the schema. Include:
+1. title (string)
+2. algorithm_tags (array of strings)
+3. approach_explanation (string)
+4. code_breakdown (array of objects with step, section_title, explanation)
+5. complexity_analysis (object with time_complexity, time_justification, space_complexity, space_justification)
+6. code_quality (object with score 0-100, rating_label, strengths, edge_cases_handled, best_practices_feedback)
+7. optimization_and_alternatives (array of objects with approach_name, time_complexity, space_complexity, tradeoffs)`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            
+            const res = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    system_instruction: { parts: [{ text: systemInstruction }] },
+                    contents: [{ parts: [{ text: promptText }] }],
+                    generationConfig: {
+                        response_mime_type: "application/json",
+                        temperature: 0.2
+                    }
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error(`Gemini API Error: ${res.status} ${res.statusText}`);
+            }
+
+            const jsonRes = await res.json();
+            const rawText = jsonRes.candidates[0].content.parts[0].text;
+            const insightsData = JSON.parse(rawText);
+            insightsData.model = "gemini-1.5-flash (live client)";
+            return insightsData;
         }
 
         function copyCode() {

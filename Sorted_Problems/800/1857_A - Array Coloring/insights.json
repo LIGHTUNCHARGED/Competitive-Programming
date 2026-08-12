@@ -1,0 +1,60 @@
+{
+  "title": "Parity Check for Array Coloring via Total Sum",
+  "algorithm_tags": [
+    "Math",
+    "Greedy",
+    "Parity"
+  ],
+  "approach_explanation": "The problem asks whether we can partition an array into two non-empty subsets such that the sums of both subsets have the same parity (either both even or both odd). Let the total sum of the array be $S$. If we partition the array into set $A$ and set $B$ with sums $S_A$ and $S_B$, we know that $S_A + S_B = S$. Two integers have the same parity if and only if their sum is even. Thus, $S_A \text{ mod } 2 = S_B \text{ mod } 2 \tiff S_A + S_B \text{ mod } 2 = 0 \tiff S \text{ is even}$. Since the total sum $S$ is invariant to any partition, if $S$ is odd, the two subset sums can never have the same parity. If $S$ is even, we can always achieve equal parity: if there is at least one odd number, we can put one odd number in group $A$ and the rest in group $B$ (or split the evens and odds such that both group sums are even). Specifically, for $S$ to be even, either all numbers are even (sum is even) or there is an even number of odd integers. If there is an even count of odd numbers (and $\\ge 2$ since $n \\ge 2$ and both groups must be non-empty), we can place one odd number in one color and the remaining odd numbers in the other color, giving both subset sums the same parity. Thus, the condition simplifies down to checking whether the total sum of the array is even.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization",
+      "explanation": "Reads the number of test cases $t$ and loops through each test case."
+    },
+    {
+      "step": 2,
+      "section_title": "Array Reading and Summation",
+      "explanation": "Reads the size of the array $n$, then iterates $n$ times to read each array element and accumulate their total sum into the variable `sum`."
+    },
+    {
+      "step": 3,
+      "section_title": "Parity Check and Output",
+      "explanation": "Checks if the total sum is even using the modulo operator (`sum % 2 == 0`). If it is even, outputs \"YES\"; otherwise, outputs \"NO\"."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each test case, we iterate through the array of size $n$ exactly once to compute the sum. Across $t$ test cases, the total time complexity is $O(\\sum n)$, which is bounded by $O(t \\cdot n)$. With $t \\le 1000$ and $n \\le 50$, total operations are around $5 \\times 10^4$, executing well within the 1-second time limit.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "The solution only uses a few primitive integer variables (`t`, `n`, `sum`, `num`) to accumulate the sum on the fly without storing the elements in an array or vector, achieving constant auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise and memory efficient (O(1) space).",
+      "Performs summation on the fly, avoiding unnecessary array allocations.",
+      "Handles all test cases efficiently."
+    ],
+    "edge_cases_handled": [
+      "Minimum array length of $n = 2$.",
+      "Arrays with all odd or all even elements.",
+      "Mixed parity arrays."
+    ],
+    "best_practices_feedback": [
+      "Prefer `\n` over `endl` to avoid unnecessary stream flushes and improve competitive programming I/O performance.",
+      "Include standard fast I/O boilerplate (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for safety against TLE on large inputs."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Count Odd Elements Approach",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of keeping the total sum, we can count the number of odd elements. If the count of odd elements is even (and $\\ge 2$), or if there are no odd elements, the answer is YES; otherwise NO. It is logically equivalent since the parity of the sum equals the parity of the count of odd numbers."
+    }
+  ],
+  "generated_at": 1786577752,
+  "model": "gemini-3.5-flash-lite"
+}

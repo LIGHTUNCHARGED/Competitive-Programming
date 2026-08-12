@@ -1,0 +1,63 @@
+{
+  "title": "Prefix Max Maximization via Global Maximum Front-Placement",
+  "algorithm_tags": [
+    "Greedy",
+    "Constructive",
+    "Math"
+  ],
+  "approach_explanation": "To maximize the sum of prefix maximums with at most one swap, the optimal strategy is to place the overall maximum element of the array at the very first position ($a_1$). When the maximum element is at the first position, every prefix from index 1 to $n$ will have this maximum element as its prefix maximum. Thus, the prefix maximum for every single position becomes the global maximum. The maximum possible sum is therefore $n \times \text{max}(a)$, which can always be achieved by swapping the global maximum with $a_1$ (or doing nothing if it's already at $a_1$).",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop Initialization",
+      "explanation": "Reads the number of test cases $t$ and enters a while loop to process each test case independently."
+    },
+    {
+      "step": 2,
+      "section_title": "Input Reading and Edge Cases",
+      "explanation": "Reads the size of the array $n$, handles the edge case where $n=0$ (though constraints say $n \text{ geq} 2$), and reads all $n$ integers into a vector."
+    },
+    {
+      "step": 3,
+      "section_title": "Finding the Global Maximum",
+      "explanation": "Iterates through the array to find the maximum element present in the array (`max_ele`)."
+    },
+    {
+      "step": 4,
+      "section_title": "Calculating and Printing the Result",
+      "explanation": "Computes the maximum possible prefix sum array value by multiplying the global maximum by $n$ (since every prefix max will be equal to this global maximum after the optimal swap) and prints the result."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each testcase, we iterate through the array of size $n$ twice: once for reading the elements and once for finding the maximum element. With $t$ test cases, the total time complexity is $O(\\sum n)$, which is bounded by $O(t \\cdot n)$. Given $t \\le 100$ and $n \\le 50$, total operations are around $5000$, executing well within the 1.5-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "A vector of size $n$ is allocated for storing the array elements per test case, leading to $O(n)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise and optimal $O(n)$ time solution.",
+      "Correctly identifies the greedy property that moving the maximum element to the front maximizes all prefix maximums simultaneously."
+    ],
+    "edge_cases_handled": [
+      "Handles arrays with already sorted or reverse-sorted elements correctly.",
+      "Handles arrays where the maximum element is already at the first index."
+    ],
+    "best_practices_feedback": [
+      "Use `std::max_element` from the `<algorithm>` library to find the maximum element more idiomatically.",
+      "Prefer `\n` over `std::endl` to avoid unnecessary stream flushes and improve I/O performance."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Standard Library Max Element",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Using `std::max_element(a.begin(), a.end())` reduces boilerplate code and improves readability while retaining the exact same optimal asymptotic complexity."
+    }
+  ],
+  "generated_at": 1786577834,
+  "model": "gemini-3.5-flash-lite"
+}

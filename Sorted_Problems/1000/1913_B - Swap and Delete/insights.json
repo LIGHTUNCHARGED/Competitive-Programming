@@ -1,0 +1,56 @@
+{
+  "title": "Greedy Character Matching with Complement Counts",
+  "algorithm_tags": [
+    "Greedy",
+    "Strings",
+    "Counting"
+  ],
+  "approach_explanation": "To make the resulting string $t$ good, every character $t_i$ must be different from the original string's character $s_i$. Since swaps are free, we can effectively rearrange any available '0's and '1's. Therefore, to maximize the length of the good string $t$, we should greedily consume the available counts of '0's and '1's from left to right in $s$, matching each $s[i]$ with its complementary character ('1' for '0', and '0' for '1'). We count the total occurrences of '0's and '1's in $s$. As we iterate through $s$ from index $0$ to $|s|-1$, we decrement the count of the required complementary character. If at any point the required complement count is exhausted, we cannot form a longer valid string $t$, and the remaining characters in $s$ must be deleted. The cost is precisely the number of deleted characters, which equals the remaining length from the current index to the end of the string.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Counting",
+      "explanation": "Read the number of test cases and loop through each string $s$. Count the total number of '0's and '1's present in the string $s$."
+    },
+    {
+      "step": 2,
+      "section_title": "Greedy Iteration over String $s$",
+      "explanation": "Iterate through each character $s[i]$ of the string. For a character '1', we need a '0' to place at position $i$ in $t$. If we have available '0's (zeros > 0), we use one; otherwise, we cannot continue matching, meaning all subsequent characters must be deleted, and we output the remaining length $|s| - i$. Similarly, for a character '0', we try to consume an available '1'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "O(N)",
+    "time_justification": "For each testcase, we iterate through the string of length $|s|$ twice (once for counting/complement generation, and once for the greedy check). Thus, the time complexity per testcase is $O(|s|)$, and across all testcases, it sums up to $O(\\\\\\sum |s|)$ which is bounded by $O(N)$ where $N \\le 2 \\cdot 10^5$.",
+    "space_complexity": "O(N)",
+    "space_justification": "We store the string $s$ and its complement string $sc$ of length $|s|$. Hence, the auxiliary space complexity is $O(|s|)$ per test case."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Linear time complexity optimal solution",
+      "Clear and straightforward greedy logic based on available counts",
+      "Correct handling of termination when resources run out"
+    ],
+    "edge_cases_handled": [
+      "Strings with equal counts of zeros and ones",
+      "Strings consisting entirely of a single character type",
+      "Single character strings"
+    ],
+    "best_practices_feedback": [
+      "Avoid using `std::endl` inside tight loops as it forces stream flushing; use `\\n` instead for better performance.",
+      "The complement string `sc` is constructed but never actually used in the greedy check logic, leaving dead code.",
+      "Include fast I/O optimizations (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "In-place Two-Pointer / Counter Greedy",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(1)",
+      "tradeoffs": "By omitting the creation of the complement string `sc`, we can reduce auxiliary space complexity to $O(1)$ while keeping the exact same $O(N)$ time complexity."
+    }
+  ],
+  "generated_at": 1786577630,
+  "model": "gemini-3.5-flash-lite"
+}

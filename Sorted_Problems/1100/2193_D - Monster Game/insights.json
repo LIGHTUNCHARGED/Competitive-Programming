@@ -1,0 +1,66 @@
+{
+  "title": "Sorting and Binary Search on Prefix Sums",
+  "algorithm_tags": [
+    "Sorting",
+    "Binary Search",
+    "Prefix Sums",
+    "Greedy"
+  ],
+  "approach_explanation": "The problem asks us to choose a difficulty $x$ from the available sword strengths such that the score $x \\times \\text{levels\\_cleared}$ is maximized. Since any valid choice of difficulty $x$ must be one of the sword strengths, we can consider each distinct sword strength in the sorted array of sword strengths as our candidate difficulty $x$. For a fixed difficulty $x$ (which is the $i$-th smallest sword strength in the sorted array), all swords with strength at least $x$ can be used. Since the array is sorted, the number of usable swords is simply $n - i$. To pass the first $k$ levels, the cumulative sum of monster requirements $b_1 + b_2 + \\dots + b_k$ must not exceed the number of usable swords. We precompute prefix sums of the level requirements and use binary search (`std::upper_bound`) to find the maximum number of levels $k$ we can clear with the given number of usable swords. We compute the score for each candidate $x$ and take the maximum.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Fast I/O and Test Case Loop",
+      "explanation": "Set up fast input-output and loop through each of the $t$ test cases."
+    },
+    {
+      "step": 2,
+      "section_title": "Input Reading and Sorting",
+      "explanation": "Read the number of swords/levels $n$, the sword strengths $a$ into vector `str`, and the monster requirements $b$ into vector `lvl`. Sort the sword strengths in non-decreasing order."
+    },
+    {
+      "step": 3,
+      "section_title": "Prefix Sum Computation",
+      "explanation": "Compute the prefix sums of the level requirements vector `lvl` so that range sums or cumulative thresholds can be queried in $O(1)$ time."
+    },
+    {
+      "step": 4,
+      "section_title": "Candidate Difficulty Evaluation via Binary Search",
+      "explanation": "Iterate through each sword strength `str[i]` as a candidate difficulty $x$. The number of usable swords is $n - i$. Use `std::upper_bound` on the prefix sum array to find how many levels can be passed with $n - i$ swords. Calculate the score and update `max_score`."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n \\log n)$",
+    "time_justification": "Sorting the sword strengths takes $O(n \\log n)$ time. Computing prefix sums takes $O(n)$ time. The loop runs $n$ times, and in each iteration, we perform a binary search using `upper_bound` which takes $O(\\log n)$ time. Thus, the total time per test case is $O(n \\log n)$, well within the time limit for $\\sum n \\le 2 \\cdot 10^5$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "We store the sword strengths, level requirements, and prefix sum arrays, each taking $O(n)$ auxiliary space per test case."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Efficient use of sorting and binary search.",
+      "Clear variable names and straightforward structure.",
+      "Uses prefix sums to quickly query cumulative monster requirements."
+    ],
+    "edge_cases_handled": [
+      "Handles cases where no levels can be cleared (score 0).",
+      "Handles large values of $a_i$ up to $10^9$ using `long long` for scores and strengths.",
+      "Handles $n = 1$ correctly."
+    ],
+    "best_practices_feedback": [
+      "Consider using `std::lower_bound` or adjusting the prefix sum logic slightly if strict subset indexing is desired, though the current `upper_bound - 1` correctly matches the prefix sum definition.",
+      "Using `\\n` instead of `endl` is already correctly applied via `\\n` string literal."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Two Pointers / Monotonic Approach",
+      "time_complexity": "$O(n \\log n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Instead of binary searching for each candidate $x$, we could potentially maintain the number of cleared levels with a two-pointer technique since as $x$ increases, the number of usable swords decreases, and the number of cleared levels is non-increasing. However, binary search is extremely concise, clean, and fast enough due to the $O(n \\log n)$ bound."
+    }
+  ],
+  "generated_at": 1786577677,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,59 @@
+{
+  "title": "Frequency Counting and Pigeonhole Principle for Grid Rearrangement",
+  "algorithm_tags": [
+    "Frequency Counting",
+    "Greedy",
+    "Pigeonhole Principle"
+  ],
+  "approach_explanation": "The problem asks whether an $n \\times n$ grid can be rearranged such that no row or column is entirely composed of candies of the same color. A row or column consists entirely of $n$ candies of the same color if and only if that color occupies all $n$ positions in that line. More generally, if we want to avoid any line (row or column) being monochromatic, the maximum frequency of any single color on the entire board cannot be too large. Specifically, if a single color appears more than $n(n-1)$ times, by the pigeonhole principle, it is impossible to distribute those candies without having at least one row or column completely filled with that color. Conversely, if the maximum frequency is at most $n(n-1)$, a valid arrangement always exists.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Frequency Map",
+      "explanation": "Reads the number of test cases $t$, then for each test case reads the board size $n$ and constructs a frequency map to count the occurrences of each color across the $n \times n$ grid."
+    },
+    {
+      "step": 2,
+      "section_title": "Finding Maximum Frequency",
+      "explanation": "Iterates through the frequency map to find the maximum frequency (`max_freq`) of any single color present on the board."
+    },
+    {
+      "step": 3,
+      "section_title": "Feasibility Check",
+      "explanation": "Compares `max_freq` against the threshold $n(n-1)$. If `max_freq <= n * (n - 1)`, outputs 'YES'; otherwise, outputs 'NO'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n^2 \\log(n^2))$",
+    "time_justification": "For each testcase, we insert $n^2$ elements into a std::map. Each insertion takes $O(\\log(n^2))$ time. Summing over all test cases, the total time complexity is bounded by $O(\\sum n^2 \\log n)$, which comfortably passes within the 1-second time limit for $\\sum n \\le 500$.",
+    "space_complexity": "$O(n^2)$",
+    "space_justification": "The std::map stores at most $n^2$ unique color keys per test case, requiring $O(n^2)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Concise and easy to understand logic.",
+      "Correctly identifies the mathematical bound ($n(n-1)$) for valid grid configurations."
+    ],
+    "edge_cases_handled": [
+      "Handles $n=1$ correctly where $n(n-1) = 0$.",
+      "Handles multiple occurrences of the same color across different rows and columns."
+    ],
+    "best_practices_feedback": [
+      "Use `std::unordered_map` or an array/vector for frequency counting if color values are bounded, which improves time complexity to $O(n^2)$.",
+      "Avoid `endl` in competitive programming to prevent unnecessary stream flushes; use `\\n` instead.",
+      "Include fast I/O optimizations (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for safety."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Unordered Map / Direct Frequency Array",
+      "time_complexity": "$O(n^2)$",
+      "space_complexity": "$O(n^2)$",
+      "tradeoffs": "Replacing `std::map` with `std::unordered_map` or a flat frequency vector eliminates the logarithmic factor from map insertions, speeding up execution."
+    }
+  ],
+  "generated_at": 1786577840,
+  "model": "gemini-3.5-flash-lite"
+}

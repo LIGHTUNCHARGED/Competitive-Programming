@@ -1,0 +1,54 @@
+{
+  "title": "Modulo Arithmetic Game Strategy Analysis",
+  "algorithm_tags": [
+    "Game Theory",
+    "Math",
+    "Modulo Arithmetic"
+  ],
+  "approach_explanation": "The game centers around whether the initial integer $n$ is divisible by 3. Since players can either add 1 or subtract 1, they can change the remainder modulo 3 by $\\pm 1$. If $n \\pmod 3 \\neq 0$, Vanya (the first player) can immediately make a move to reach a multiple of 3 ($n \\pmod 3 == 0$), winning on his very first turn. If $n \\pmod 3 == 0$, any move Vanya makes will result in $n \\pmod 3 \\neq 0$ (either 1 or 2). Vova can then always reverse Vanya's move to bring the number back to a multiple of 3 on his turn, eventually winning since Vanya has a limit of 10 moves and cannot win from this position. Thus, Vanya wins if and only if $n$ is not a multiple of 3.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Fast I/O & Testcase Loop",
+      "explanation": "Reads the number of test cases $t$ and loops through each test case to process the input integer $n$."
+    },
+    {
+      "step": 2,
+      "section_title": "Modulo Check & Output",
+      "explanation": "Checks if $n$ is divisible by 3 using the modulo operator ($n \\% 3 == 0$). If true, outputs \"Second\" (Vova wins); otherwise, outputs \"First\" (Vanya wins)."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(t)$",
+    "time_justification": "The solution processes each of the $t$ test cases in $O(1)$ constant time with a single modulo operation and a conditional check.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "Only a few primitive integer variables ($t$ and $n$) are used, requiring constant auxiliary memory."
+  },
+  "code_quality": {
+    "score": 95,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely concise and optimal time/space complexity.",
+      "Leverages game theory insight to reduce a multi-turn game to a single modulo check."
+    ],
+    "edge_cases_handled": [
+      "Handles minimum constraint $n = 1$ correctly.",
+      "Handles maximum constraint $n = 1000$ correctly.",
+      "Correctly handles initial values that are already multiples of 3."
+    ],
+    "best_practices_feedback": [
+      "Using `\\n` instead of `endl` is recommended in competitive programming to avoid unnecessary stream flushes.",
+      "Including `<bits/stdc++.h>` is fine for competitive programming, though standard modular headers are preferred for production."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Bitwise/Arithmetic check",
+      "time_complexity": "$O(t)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "The current modulo approach is already optimal in both time and space. No further algorithmic optimization is possible."
+    }
+  ],
+  "generated_at": 1786577809,
+  "model": "gemini-3.5-flash-lite"
+}

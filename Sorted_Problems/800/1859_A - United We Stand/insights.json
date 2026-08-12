@@ -1,0 +1,70 @@
+{
+  "title": "Constructive Partitioning Using Maximum Element Separation",
+  "algorithm_tags": [
+    "Constructive Algorithms",
+    "Sorting",
+    "Math",
+    "Number Theory"
+  ],
+  "approach_explanation": "The problem requires partitioning an array $a$ into two non-empty arrays $b$ and $c$ such that no element in $c$ divides any element in $b$. A simple and effective strategy is to first sort or identify the maximum elements in the array $a$. If all elements in $a$ are identical, no such partition can exist because any element chosen from $c$ would divide any element in $b$, so we output -1. Otherwise, we can place all occurrences of the maximum element into array $c$ and all other elements into array $b$. Since all elements in $b$ are strictly smaller than the elements in $c$ (or at least not equal to the maximum), no element in $c$ can divide any element in $b$ (as a smaller number cannot be a multiple of a larger number, and if they are equal, they would be in $c$).",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Utility Functions Setup",
+      "explanation": "Defines `print_vector` to print elements of a vector separated by spaces and `check_all_equal_elements` to check whether all elements in the array are identical."
+    },
+    {
+      "step": 2,
+      "section_title": "Test Case Reading and Maximum Tracking",
+      "explanation": "Reads the number of test cases $t$, and for each test case reads the size $n$ and elements into array $a$ while concurrently tracking the maximum value (`max`)."
+    },
+    {
+      "step": 3,
+      "section_title": "Impossibility Check",
+      "explanation": "Checks if all elements in array $a$ are equal using `check_all_equal_elements(a)`. If they are, it prints `-1` because no valid partition can satisfy the condition."
+    },
+    {
+      "step": 4,
+      "section_title": "Partitioning the Elements",
+      "explanation": "Iterates through array $a$, placing all elements equal to `max` into array $c$, and all other elements into array $b$. This guarantees that array $b$ and array $c$ are both non-empty and satisfy the divisibility condition."
+    },
+    {
+      "step": 5,
+      "section_title": "Output Results",
+      "explanation": "Prints the sizes of arrays $b$ and $c$, followed by their contents using the helper function `print_vector`."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "Finding the maximum element and checking if all elements are equal each take a single pass through the array of size $n$. Partitioning takes another pass. Thus, for each test case, the time complexity is linear in $n$. Summing over $t$ test cases, total time complexity is $O(\\sum n)$, which easily passes within the 1-second limit for $n \\le 100$ and $t \\le 500$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Vectors $a$, $b$, and $c$ store up to $n$ integers combined, requiring linear extra space per test case."
+  },
+  "code_quality": {
+    "score": 75,
+    "rating_label": "Good",
+    "strengths": [
+      "Simple and intuitive logic based on isolating the maximum element.",
+      "Clear modularization with helper functions for printing and equality checking."
+    ],
+    "edge_cases_handled": [
+      "Handles arrays with all identical elements by correctly outputting -1.",
+      "Handles small constraints ($n=2$) properly."
+    ],
+    "best_practices_feedback": [
+      "Avoid naming variables `max` as it shadows the standard library function `std::max`, which can lead to hard-to-debug compilation issues in larger scopes.",
+      "Use `std::vector::size()` type `size_t` or cast appropriately to avoid signed/unsigned comparison warnings.",
+      "Include fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming safety."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Sorting-based Approach",
+      "time_complexity": "$O(n \\log n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Sorting the array allows grouping the smallest elements together or finding the suffix of maximum elements easily. Though slightly slower than $O(n)$ due to sorting, it offers great flexibility for variants of this problem."
+    }
+  ],
+  "generated_at": 1786577764,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Lazy Reset Simulation with Version Tracking",
+  "algorithm_tags": [
+    "Simulation",
+    "Lazy Propagation",
+    "Version Control"
+  ],
+  "approach_explanation": "The problem requires us to simulate array updates where a value exceeding $h$ resets the entire array to its initial state. A naive simulation of resetting all $n$ elements upon every crash would lead to an $O(n \times m)$ time complexity, which is too slow and results in Time Limit Exceeded (TLE). Instead, we use a lazy reset approach with version tracking. We maintain a global `current_reset` counter that increments every time a crash happens. Each element keeps track of the last reset version it was synchronized with (`last_reset`). When an operation updates an element, we first check if its value is outdated (i.e., its last synchronized version is older than `current_reset`). If so, we lazily restore it to its initial value from the original array `arr` and update its version. Then, we perform the addition. If the new value exceeds $h$, we simply increment `current_reset` instead of resetting the whole array. After processing all operations, any element with a version older than `current_reset` defaults to its original value.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Initialization",
+      "explanation": "Read test cases, array size $n$, number of operations $m$, and limit $h$. Read the initial array elements into `arr`, copy them into `temp`, and initialize the `last_reset` version tracking array to all zeros along with `current_reset = 0`."
+    },
+    {
+      "step": 2,
+      "section_title": "Processing Operations Lazily",
+      "explanation": "Iterate through each of the $m$ operations. For an operation on index $b-1$, check if the element has been reset since its last update. If `last_reset[b-1] < current_reset`, restore `temp[b-1]` to `arr[b-1]` and update `last_reset[b-1]` to `current_reset`."
+    },
+    {
+      "step": 3,
+      "section_title": "Evaluating Crash Condition",
+      "explanation": "Check if adding $c$ to `temp[b-1]` exceeds $h$. If it does not, safely add $c$. If it does, trigger a global crash by incrementing `current_reset` without explicitly modifying the entire array."
+    },
+    {
+      "step": 4,
+      "section_title": "Final Reconstruction and Output",
+      "explanation": "Iterate through each element of the array. If an element's version `last_reset[i]` is less than `current_reset`, it means it was never updated after the latest global reset, so we output its original value `arr[i]`. Otherwise, we output its accumulated value `temp[i]`."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n + m)$",
+    "time_justification": "Reading the input array takes $O(n)$ time. Processing $m$ operations takes $O(m)$ time because each operation involves constant-time checks and updates thanks to lazy version tracking. Final output takes $O(n)$ time. Summing over all test cases, the total time complexity is $O(\\sum n + \\sum m)$, comfortably fitting within the 2.0-second time limit for $2 \\cdot 10^5$ elements.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "We allocate auxiliary vectors `arr`, `temp`, and `last_reset`, each of size $n$, per test case. Thus, the auxiliary space complexity is linear with respect to the array size $n$, taking $O(n)$ space which uses well within the 256 MB limit."
+  },
+  "code_quality": {
+    "score": 92,
+    "rating_label": "Great",
+    "strengths": [
+      "Clever lazy evaluation strategy avoiding $O(n \\times m)$ overhead.",
+      "Clean separation of original array and working array.",
+      "Efficient version-tracking via integer counters."
+    ],
+    "edge_cases_handled": [
+      "Operations where the values instantly exceed $h$ on the first addition.",
+      "Elements that are never touched by any operation.",
+      "Multiple consecutive crashes affecting elements selectively."
+    ],
+    "best_practices_feedback": [
+      "Use `std::ios_base::sync_with_stdio(false); cin.tie(NULL);` for faster I/O in competitive programming.",
+      "Prefer `\\n` over `endl` to avoid unnecessary buffer flushes.",
+      "Use `long long` for array elements or increments if $a_i + c_i$ can overflow standard 32-bit signed integers (though given $h, c_i \\le 10^9$, standard 32-bit signed integers fit values up to $2 \\cdot 10^9$, which fits inside standard `int`, but `long long` is safer)."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Segment Tree with Lazy Propagation",
+      "time_complexity": "$O((n + m) \\log n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "A segment tree could handle range updates if the problem statement were generalized, but for point updates, it is unnecessarily complex and slower than the $O(n + m)$ version tracking approach."
+    }
+  ],
+  "generated_at": 1786577671,
+  "model": "gemini-3.5-flash-lite"
+}

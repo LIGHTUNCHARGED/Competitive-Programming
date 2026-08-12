@@ -1,0 +1,72 @@
+{
+  "title": "Frequency Map Analysis for Alternating Elements",
+  "algorithm_tags": [
+    "Hash Map",
+    "Counting",
+    "Greedy",
+    "Constructive Algorithms"
+  ],
+  "approach_explanation": "The problem asks whether we can permute an array such that every adjacent pair sums to the same constant $k$. This condition implies that elements at alternating positions must be equal ($b_1 = b_3 = b_5 = \text{...}$ and $b_2 = b_4 = b_6 = \text{...}$). Thus, the array can contain at most two distinct values. If there is only 1 distinct value, we can always arrange them to be good. If there are exactly 2 distinct values, they must alternate (e.g., $x, y, x, y, \text{...}$), which means their frequencies must differ by at most $1$. If there are more than 2 distinct values, it is impossible to satisfy the condition.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop & Input Reading",
+      "explanation": "Read the number of test cases $t$, and for each test case, read the array size $n$ and populate a frequency map of the elements using `std::map`."
+    },
+    {
+      "step": 2,
+      "section_title": "Distinct Element Count Check (> 2)",
+      "explanation": "Check if the number of distinct elements (`freq.size()`) is strictly greater than 2. If so, it's impossible to form the alternating sum property, and we output \"No\"."
+    },
+    {
+      "step": 3,
+      "section_title": "Single Distinct Element Check",
+      "explanation": "If there is only 1 distinct element, all adjacent sums are identical, so we immediately output \"Yes\"."
+    },
+    {
+      "step": 4,
+      "section_title": "Two Distinct Elements Frequency Check",
+      "explanation": "If there are exactly 2 distinct elements, we extract their frequencies and compute their absolute difference. If the difference is $\\le 1$, we output \"Yes\"; otherwise, we output \"No\"."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n \\log n)$",
+    "time_justification": "Inserting $n$ elements into a `std::map` takes $O(n \\log n)$ time per test case because each insertion requires logarithmic time relative to the number of distinct elements. Across $t$ test cases, the total time complexity is $O(\\sum n \\log n)$.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "In the worst case, all $n$ elements in the array are distinct, meaning the `std::map` stores up to $n$ key-value pairs, requiring $O(n)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clean and concise implementation of the core logic.",
+      "Accurately handles all theoretical cases (1 distinct element, 2 distinct elements, and >2 distinct elements).",
+      "Uses standard C++ libraries appropriately."
+    ],
+    "edge_cases_handled": [
+      "Arrays with all identical elements ($n$ distinct count = 1).",
+      "Arrays with exactly two distinct elements with balanced or slightly unbalanced frequencies.",
+      "Arrays with more than 2 distinct elements."
+    ],
+    "best_practices_feedback": [
+      "Prefer `std::unordered_map` for an average $O(1)$ lookup and insertion time instead of `std::map`, improving time complexity to $O(n)$.",
+      "Use `\n` instead of `endl` to avoid unnecessary stream flushes and improve I/O performance."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Unordered Map Optimization",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Replacing `std::map` with `std::unordered_map` reduces the time complexity from $O(n \\log n)$ to expected $O(n)$ by utilizing a hash table instead of a balanced binary search tree."
+    },
+    {
+      "approach_name": "Sorting / Two-Pointer Approach",
+      "time_complexity": "$O(n \\log n)$",
+      "space_complexity": "$O(1)$ auxiliary",
+      "tradeoffs": "Sort the array and check counts of the first and last elements to avoid map overhead, keeping auxiliary space minimal."
+    }
+  ],
+  "generated_at": 1786577800,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,64 @@
+{
+  "title": "Daytona Cost Existence Check via Linear Scan",
+  "algorithm_tags": [
+    "Array",
+    "Greedy",
+    "Implementation"
+  ],
+  "approach_explanation": "The problem asks whether a specific element 'k' appears at least once in a given array of size 'n'. Since the subsegment property of the problem implies that if 'k' exists anywhere in the array, we can always choose a subsegment containing 'k' (even the whole array or just a singleton containing 'k') as the most frequent element, the problem simplifies to checking if 'k' is present in the input array. We can perform a simple linear scan over the elements and set a boolean flag if 'k' is encountered.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop",
+      "explanation": "Reads the number of test cases 't' and loops 't' times to process each test case independently."
+    },
+    {
+      "step": 2,
+      "section_title": "Input Reading and Flag Initialization",
+      "explanation": "Reads the array size 'n' and the target integer 'k'. Initializes a boolean flag 'exists' to false."
+    },
+    {
+      "step": 3,
+      "section_title": "Linear Scan",
+      "explanation": "Iterates through the 'n' elements of the array. If any element matches 'k', sets 'exists' to true."
+    },
+    {
+      "step": 4,
+      "section_title": "Result Output",
+      "explanation": "Outputs \"YES\" if 'exists' is true, and \"NO\" otherwise, followed by a newline."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through the array of size $N$ exactly once. If there are $T$ test cases and the sum of $N$ is bounded by standard competitive programming limits, the total time complexity is $O(\\sum N)$, which runs well within standard time limits.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "We do not store the array elements in memory; instead, we process each element on the fly using a single integer variable. Thus, extra auxiliary space is $O(1)$."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely memory efficient by avoiding array storage.",
+      "Clear and straightforward logic mapping directly to the problem constraints.",
+      "Fast I/O implicitly used via standard streams."
+    ],
+    "edge_cases_handled": [
+      "Single-element arrays containing or not containing 'k'.",
+      "Arrays where 'k' appears multiple times."
+    ],
+    "best_practices_feedback": [
+      "Use '\n' instead of 'endl' to avoid unnecessary stream flushes and improve execution speed.",
+      "Consider using fast I/O optimizations like 'ios_base::sync_with_stdio(false); cin.tie(NULL);'."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Early Break Optimization",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of reading all remaining elements once 'k' is found, we can break early or consume the rest of the line. However, since all inputs must be read to move to the next testcase, a full loop or reading remainder is still required."
+    }
+  ],
+  "generated_at": 1786577789,
+  "model": "gemini-3.5-flash-lite"
+}

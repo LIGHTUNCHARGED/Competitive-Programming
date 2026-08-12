@@ -1,0 +1,65 @@
+{
+  "title": "Traffic Light Duration Optimization via String Duplication and Two Pointers",
+  "algorithm_tags": [
+    "String Manipulation",
+    "Two Pointers",
+    "Greedy"
+  ],
+  "approach_explanation": "The problem asks for the maximum number of seconds we might have to wait to reach a green light ('g') starting from any occurrence of a given color character 'c' in a cyclic string of length n. Since the string repeats periodically, we can easily model this wrap-around behavior by concatenating the string with itself (new_s = s + s). For each occurrence of the character 'c' in the original string, we find the distance to the next 'g' in the duplicated string. By keeping track of the maximum distance found across all starting positions of 'c', we find the worst-case waiting time.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading & Test Case Loop",
+      "explanation": "Reads the number of test cases 't' and processes each test case by taking the string length 'n', the target character 'c', and the string 's'."
+    },
+    {
+      "step": 2,
+      "section_title": "String Duplication & Edge Case Check",
+      "explanation": "Concatenates string 's' with itself to form 'new_s' of length 2n, which handles the circular nature of the traffic light string. If 'c' is already 'g', the waiting time is 0, so it prints 0 and skips to the next test case."
+    },
+    {
+      "step": 3,
+      "section_title": "Two-Pointer Traversal & Distance Calculation",
+      "explanation": "Iterates through the string 's'. Whenever a character matching 'c' is found at index 'i', a secondary pointer 'j' searches forward until it encounters 'g' in 'new_s'. The distance (j - i) is computed. The outer loop index 'i' is updated to 'j' to skip redundant checks, and 'max_dist' is updated with the maximum distance found."
+    },
+    {
+      "step": 4,
+      "section_title": "Output",
+      "explanation": "Prints the maximum distance found for the current testcase."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we duplicate the string to size $2N$, iterate through the string of length $N$ at most once because the inner pointer 'j' jumps forward and never backtracks across indices already covered. The sum of $N$ over all test cases is bounded by $2 \times 10^5$, leading to an optimal linear time complexity.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "We store the string 's' of length $N$ and its duplicated version 'new_s' of length $2N$, which requires memory proportional to $O(N)$ per test case."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Great",
+    "strengths": [
+      "Clever use of string duplication ($s + s$) to eliminate complex modulo arithmetic for circular indexing.",
+      "Optimized loop progression by advancing 'i = j' skips already processed segments.",
+      "Handles the edge case where the starting light is already green ($c == 'g'$) immediately."
+    ],
+    "edge_cases_handled": [
+      "Target character 'c' is already 'g'.",
+      "Multiple occurrences of 'c' followed by the same or different 'g'.",
+      "Single character string inputs."
+    ],
+    "best_practices_feedback": [
+      "Use '\n' instead of 'endl' in competitive programming to avoid performance hits from unnecessary stream flushing.",
+      "Consider using fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for safety against TLE under tight time limits."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Backward Pass / Suffix Minimum Index Array",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(N)$",
+      "tradeoffs": "Precomputing the nearest 'g' index for each suffix allows answering queries in $O(1)$ time, but string duplication with two pointers is cleaner and requires less auxiliary memory."
+    }
+  ],
+  "generated_at": 1786577608,
+  "model": "gemini-3.5-flash-lite"
+}

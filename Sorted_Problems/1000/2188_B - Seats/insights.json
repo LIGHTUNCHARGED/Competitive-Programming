@@ -1,0 +1,65 @@
+{
+  "title": "Maximal Independent Set Expansion via Boundary Padding and Greedy Interval Partitioning",
+  "algorithm_tags": [
+    "Greedy",
+    "String Parsing",
+    "Ad-hoc"
+  ],
+  "approach_explanation": "The problem asks for the minimum number of students needed to reach a maximal seating state (where no more students can be seated without violating the adjacency restriction). Each '1' acts as a fixed obstacle. The spaces between existing '1's (or boundaries) consist of contiguous blocks of '0's. In any continuous block of $z$ empty seats, the maximum number of additional students we can seat such that no two are adjacent is achieved by greedily placing students at intervals of 3 (e.g., indices $1, 4, 7, \text{etc.}$, consuming $3$ seats per added student). Specifically, a block of length $z$ can accommodate $\\lfloor z / 3 \\rfloor$ additional students. To seamlessly handle boundary constraints (where we can start placing a student right at the ends if bounded appropriately), we can prepend \"10\" and append \"01\" to the original string. This simplifies the counting logic by turning endpoints into '1' barriers.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Initial Count",
+      "explanation": "Reads the number of seats $n$ and the binary string $s$, then computes the initial number of occupied seats (count of '1's)."
+    },
+    {
+      "step": 2,
+      "section_title": "Boundary Padding",
+      "explanation": "Constructs a new string `padded_s = \"10\" + s + \"01\"` to unify boundary rules and eliminate special case checks for the start and end of the row."
+    },
+    {
+      "step": 3,
+      "section_title": "Greedy Block Processing",
+      "explanation": "Iterates through the padded string. Whenever a '0' is encountered, `zero_count` is incremented. When a '1' is encountered, the completed block of zeros of length $z$ contributes $\\lfloor z / 3 \\rfloor$ to `added_ones`, and `zero_count` resets to $0$."
+    },
+    {
+      "step": 4,
+      "section_title": "Result Output",
+      "explanation": "Outputs the sum of the initial occupied seats and the newly added students for each test case."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through a string of length $n$ a constant number of times (once to count original ones, once for the padded linear scan). Given that the sum of $n$ over all test cases does not exceed $2 \\cdot 10^5$, the total time complexity is strictly linear with respect to the input size.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "We allocate a new string `padded_s` of length $n + 4$ per test case, which takes $O(N)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 95,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely clean and elegant handling of boundary conditions via string padding.",
+      "Optimal linear time complexity and minimal overhead.",
+      "Clear separation of concerns and well-commented code blocks."
+    ],
+    "edge_cases_handled": [
+      "Row of size $n=1$ (handled correctly by padding).",
+      "Completely empty rows (all '0's).",
+      "Rows that are already completely filled or maximally packed ('10101...' pattern)."
+    ],
+    "best_practices_feedback": [
+      "Using `ios_base::sync_with_stdio(false); cin.tie(NULL);` is great for competitive programming input/output speed.",
+      "Consider using string_view or iterating with indices to avoid string allocation overhead if memory limits were tighter, though $O(N)$ allocation is well within the 256 MB limit."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "In-place Two-Pointer / Index Tracking",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of constructing a new string with padding, we can iterate through the original string while manually accounting for virtual boundaries at index $-1$ and $n$, saving $O(N)$ auxiliary heap allocations. However, the current padding approach is much less error-prone and cleaner to write."
+    }
+  ],
+  "generated_at": 1786577641,
+  "model": "gemini-3.5-flash-lite"
+}

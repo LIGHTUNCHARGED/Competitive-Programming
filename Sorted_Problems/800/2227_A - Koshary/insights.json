@@ -1,0 +1,53 @@
+{
+  "title": "Parity-Based Reachability Analysis",
+  "algorithm_tags": [
+    "Math",
+    "Parity",
+    "Implementation"
+  ],
+  "approach_explanation": "Every long step adds 2 to either the x-coordinate or the y-coordinate. Therefore, any number of long steps preserves the parity of both coordinates (starting from (0, 0), both coordinates remain even). The short step allows adding 1 to either the x-coordinate or the y-coordinate exactly once during the entire journey. Taking a short step in the x-direction changes the x-coordinate's parity from even to odd, while keeping the y-coordinate's parity even. Conversely, taking a short step in the y-direction makes the y-coordinate odd while keeping the x-coordinate even. It is fundamentally impossible for both coordinates to end up with odd parities because only one short step is allowed. Thus, if both x and y are odd, it is impossible to reach (x, y), yielding 'NO'. Otherwise, it is always possible, yielding 'YES'.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Test Cases",
+      "explanation": "Reads the number of test cases $t$ to execute the query loop."
+    },
+    {
+      "step": 2,
+      "section_title": "Parity Check Logic",
+      "explanation": "For each query, reads coordinates $x$ and $y$. Evaluates whether both $x$ and $y$ are odd. If `x % 2 != 0 && y % 2 != 0`, prints 'NO'; otherwise, prints 'YES'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "O(1)",
+    "time_justification": "Each testcase performs a constant number of arithmetic operations and conditional checks, taking $O(1)$ time per test case. For $t$ test cases, the total time complexity is $O(t)$, which is $O(1)$ given $t \neq O(\text{large})$ or simply $O(t)$.",
+    "space_complexity": "O(1)",
+    "space_justification": "The algorithm only uses a few primitive integer variables to store the inputs $t$, $x$, and $y$, resulting in $O(1)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise and optimal time/space complexity.",
+      "Direct mathematical reduction of the problem constraints."
+    ],
+    "edge_cases_handled": [
+      "Handles minimum and maximum boundary coordinates ($1 \\le x, y \\le 10$).",
+      "Handles fully even coordinates (e.g., reaching via long steps only)."
+    ],
+    "best_practices_feedback": [
+      "Avoid using shorthand logical expressions like `cond ? A : B` for side effects like `cout`, as it hurts readability.",
+      "Prefer `\n` over `endl` to prevent unnecessary stream flushing in competitive programming."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Bitwise Parity Check",
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "tradeoffs": "Using bitwise operations like `(x & 1) && (y & 1)` can be slightly faster micro-optimistically, though functionally identical to modulo operators."
+    }
+  ],
+  "generated_at": 1786577854,
+  "model": "gemini-3.5-flash-lite"
+}

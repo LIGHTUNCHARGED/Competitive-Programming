@@ -1,0 +1,76 @@
+{
+  "title": "Greedy Propagation with Prefix Sums for Array Replacement Queries",
+  "algorithm_tags": [
+    "Greedy",
+    "Prefix Sums",
+    "Dynamic Programming"
+  ],
+  "approach_explanation": "The problem allows replacing any $a_i$ with $b_i$, and propagating values to the left by replacing $a_i$ with $a_{i+1}$. To maximize the subarray sum from $l$ to $r$, we want each element $a_i$ to be as large as possible. First, we can independently maximize each $a_i$ by setting $a_i = \text{max}(a_i, b_i)$. Second, because any element can adopt the value of an element to its right through repeated operations, we can iterate from right to left ($n-2$ down to $0$) and propagate the maximum values, updating $a_i = \text{max}(a_i, a_{i+1})$. After these transformations, $a$ represents the optimal configuration for any prefix/suffix. We then use a prefix sum array to answer each range sum query in $O(1)$ time.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading",
+      "explanation": "Reads the number of test cases $t$, and for each test case reads array dimensions $n, q$, followed by vectors $a$ and $b$."
+    },
+    {
+      "step": 2,
+      "section_title": "Initial Value Maximization",
+      "explanation": "Iterates from $0$ to $n-1$, updating $a_i$ to $\text{max}(a_i, b_i)$ to account for the operation where any element can be replaced by its corresponding value in $b$."
+    },
+    {
+      "step": 3,
+      "section_title": "Right-to-Left Value Propagation",
+      "explanation": "Iterates backwards from $n-2$ down to $0$, updating $a_i = \text{max}(a_i, a_{i+1})$ to model the operation of replacing $a_i$ with $a_{i+1}$, ensuring values can propagate arbitrarily far to the left."
+    },
+    {
+      "step": 4,
+      "section_title": "Prefix Sum Construction",
+      "explanation": "Builds a prefix sum array of size $n+1$ in $O(n)$ time to allow fast range-sum queries."
+    },
+    {
+      "step": 5,
+      "section_title": "Query Processing",
+      "explanation": "Processes each of the $q$ queries in $O(1)$ time using the formula `prefix_sum[r] - prefix_sum[l-1]`, and outputs the results."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n + q)$",
+    "time_justification": "Reading the input takes $O(n)$ time per testcase. Maximizing elements and computing prefix sums both take $O(n)$ time. Answering each of the $q$ queries takes $O(1)$ time, yielding $O(n + q)$ total time per test case. Summing over all test cases, the total time complexity is bounded by $O(\\sum n + \\sum q) = O(N_{\text{total}} + Q_{\text{total}})$, which easily runs well within the 2-second time limit for $2 \\cdot 10^5$ elements.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Vectors $a$, $b$, and `prefix_sum` of size $n$ and $n+1$ are allocated per test case, taking linear extra space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Clean separation of logic: preprocessing via greedy updates, prefix sum construction, and query answering.",
+      "Optimal $O(n + q)$ time complexity.",
+      "Clear loop bounds and variable names."
+    ],
+    "edge_cases_handled": [
+      "Single-element arrays ($n = 1$).",
+      "Single query or multiple queries per test case.",
+      "Elements in $a$ already greater than or equal to $b$ and right neighbors."
+    ],
+    "best_practices_feedback": [
+      "Use `long long` for prefix sums or range sum outputs to prevent potential integer overflow if sums exceed standard 32-bit signed integer limits (though max sum here is $10^4 \\cdot 2\\cdot 10^5 = 2\\cdot 10^9$, fitting inside a 32-bit signed integer, `long long` is safer for general competitive programming).",
+      "Include `ios_base::sync_with_stdio(false); cin.tie(NULL);` for fast I/O."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Fast I/O Additions",
+      "time_complexity": "$O(n + q)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Adding `cin.tie(NULL)` avoids synchronization overhead with standard C streams, which is critical when $q$ and $n$ reach $2 \\cdot 10^5$."
+    },
+    {
+      "approach_name": "Using long long for sums",
+      "time_complexity": "$O(n + q)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Prevents overflow vulnerability if constraints were slightly larger, with negligible memory trade-offs."
+    }
+  ],
+  "generated_at": 1786577659,
+  "model": "gemini-3.5-flash-lite"
+}

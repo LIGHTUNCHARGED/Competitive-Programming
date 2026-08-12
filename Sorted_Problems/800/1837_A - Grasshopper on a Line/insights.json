@@ -1,0 +1,66 @@
+{
+  "title": "Greedy Single-Step and Double-Step Construction",
+  "algorithm_tags": [
+    "constructive algorithms",
+    "math",
+    "greedy"
+  ],
+  "approach_explanation": "The problem asks for the minimum number of jumps to reach position x such that each jump length is not divisible by k. The minimum possible number of moves is 1. We can achieve 1 move if the direct jump length x is not divisible by k. This occurs whenever k > x or x % k != 0. If x is divisible by k, a single jump is forbidden, but we can always reach x in exactly 2 moves by jumping to x - 1 first (since x - 1 is not divisible by k) and then taking a second jump of length 1 (since 1 is not divisible by k, given k >= 2).",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Loop Initialization",
+      "explanation": "Read the number of test cases t and loop through each test case, reading the target position x and the forbidden divisor k."
+    },
+    {
+      "step": 2,
+      "section_title": "Check Single-Move Feasibility (k > x)",
+      "explanation": "If k is strictly greater than x, then x itself cannot be divisible by k. Therefore, we can reach x in 1 move by jumping directly to x."
+    },
+    {
+      "step": 3,
+      "section_title": "Check Single-Move Feasibility (x % k != 0)",
+      "explanation": "If k <= x but x is not divisible by k, a single jump of length x is valid and takes us directly to the target in 1 move."
+    },
+    {
+      "step": 4,
+      "section_title": "Fallback to Two Moves (x % k == 0)",
+      "explanation": "If x is divisible by k, 1 move is impossible. We construct a 2-move solution by jumping to x - 1 (which leaves a remainder of k - 1 when divided by k, hence valid) and then jumping 1 unit to land exactly on x."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(1)$",
+    "time_justification": "For each of the t test cases, a constant number of arithmetic operations and comparisons are performed, resulting in $O(1)$ time per test case and $O(t)$ total time.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "No additional data structures or dynamic memory allocations are used; only a few scalar variables are maintained."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Optimal time and space complexity.",
+      "Clear, concise conditional logic covering all logical cases.",
+      "Fast I/O."
+    ],
+    "edge_cases_handled": [
+      "Target x smaller than k (k > x).",
+      "Target x perfectly divisible by k (x % k == 0).",
+      "Smallest constraint values (e.g., k = 2, x = 3)."
+    ],
+    "best_practices_feedback": [
+      "Avoid using `#include<bits/stdc++.h>` in production code for portability.",
+      "Prefer `\n` over `endl` for faster output streaming in competitive programming.",
+      "Format code with proper indentation and spacing for better readability."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "I/O Optimization",
+      "time_complexity": "$O(1)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Using `ios_base::sync_with_stdio(false); cin.tie(NULL);` alongside `\n` instead of `endl` ensures maximum execution speed for large test suites."
+    }
+  ],
+  "generated_at": 1786577737,
+  "model": "gemini-3.5-flash-lite"
+}

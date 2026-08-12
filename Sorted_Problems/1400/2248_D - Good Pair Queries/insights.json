@@ -1,0 +1,65 @@
+{
+  "title": "Prefix Sums and Invariant-based Condition for Good Pair Queries",
+  "algorithm_tags": [
+    "Prefix Sums",
+    "Greedy",
+    "Math"
+  ],
+  "approach_explanation": "The problem asks whether two binary substrings s[l..r] and t[l..r] can be completely reduced to empty strings using an operation where we choose a subset of indices and a mode character c present in at least half of the chosen elements in both substrings. By analyzing the counts of identical and differing character pairs at each index\u2014letting c00, c01, c10, and c11 denote the counts of ('0','0'), ('0','1'), ('1','0'), and ('1','1') respectively\u2014we can derive a necessary and sufficient condition. Each matching pair ('0','0') can contribute to either '0' mode for both or be skipped, and ('1','1') can contribute to '1' mode. The mismatch pairs ('0','1') and ('1','0') pull the balance towards opposite characters. A careful mathematical analysis shows that the strings are good if and only if c11 + c00 >= abs(c10 - c01). We precalculate prefix sums for all four character pair combinations to answer each query in O(1) time.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Prefix Sum Arrays Initialization",
+      "explanation": "Reads the test cases, string length n, number of queries q, and the binary strings s and t. Four prefix sum arrays (p00, p01, p10, p11) of size n + 1 are initialized to store cumulative counts of each pair type."
+    },
+    {
+      "step": 2,
+      "section_title": "Precomputing Pair Counts",
+      "explanation": "Iterates through the strings from index 0 to n-1 to populate the prefix sum arrays. Each array entry at i+1 stores the number of occurrences of its specific pair type up to the i-th character."
+    },
+    {
+      "step": 3,
+      "section_title": "Query Processing",
+      "explanation": "For each of the q queries given by range [l, r], retrieves the counts c00, c01, c10, and c11 in O(1) using the prefix sum arrays via range subtraction."
+    },
+    {
+      "step": 4,
+      "section_title": "Evaluating the Condition",
+      "explanation": "Checks if the inequality c11 + c00 >= abs(c10 - c01) holds. If true, outputs 'YES'; otherwise, outputs 'NO'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n + q)$",
+    "time_justification": "Building the prefix sum arrays takes $O(n)$ time per test case. Each of the $q$ queries is answered in $O(1)$ time. Given that the sum of $n$ and $q$ over all test cases does not exceed $2 \times 10^5$, the total time complexity is strictly linear in the input size, easily fitting within the 2-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Four prefix sum vectors of size $n + 1$ are allocated per test case, requiring $O(n)$ auxiliary space. The space is reused or reclaimed across test cases."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Optimal $O(1)$ query time complexity using prefix sums.",
+      "Clean, concise, and readable implementation.",
+      "Efficient handling of multiple test cases."
+    ],
+    "edge_cases_handled": [
+      "Single character queries ($l = r$).",
+      "Full string queries ($l = 1, r = n$).",
+      "Strings consisting entirely of '0's or '1's."
+    ],
+    "best_practices_feedback": [
+      "Use fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming to prevent I/O bottlenecks.",
+      "Prefer `\n` over `endl` to avoid unnecessary stream flushes."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Fast I/O Optimization",
+      "time_complexity": "$O(n + q)$",
+      "space_complexity": "$O(n)$",
+      "tradeoffs": "Adding standard competitive programming fast I/O lines improves execution speed for heavy I/O operations without affecting theoretical complexity."
+    }
+  ],
+  "generated_at": 1786577696,
+  "model": "gemini-3.5-flash-lite"
+}

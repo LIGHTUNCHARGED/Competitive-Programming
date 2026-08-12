@@ -1,0 +1,60 @@
+{
+  "title": "Greedy Minimization and Second-Minimum Optimization",
+  "algorithm_tags": [
+    "Greedy",
+    "Constructive Algorithms",
+    "Sortings"
+  ],
+  "approach_explanation": "To maximize the sum of minimum elements across all arrays after at most one element transfer per array, we can use a greedy strategy. For each array, we find its minimum and second-minimum elements. To make one array have a very small minimum (by dumping all smallest elements into it), we can sacrifice the second-minimum of one designated array to absorb the minimum elements from all other arrays. Specifically, we leave the overall absolute minimum across all arrays intact in one array (or let it be the anchor), and for every other array, we can dump its minimum into the anchor array, making the new minimum of those other arrays equal to their second-minimums. To maximize the final sum, we should sacrifice the array that has the smallest second-minimum among all arrays, and sum up the second-minimums of all remaining arrays plus the absolute minimum across all arrays.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Reading Input and Finding Extrema per Array",
+      "explanation": "Iterate through each of the $n$ arrays. For each array of size $m$, stream through the elements in $O(m)$ time and efficiently track the two smallest elements: `min_element` and `second_element`."
+    },
+    {
+      "step": 2,
+      "section_title": "Identifying Absolute Minimum and Second-Minimums Sum",
+      "explanation": "Find the absolute minimum (`min_of_min_elements`) among all the minimums of the $n$ arrays. Simultaneously, accumulate the sum of all second-minimum elements and track the minimum among the second-minimums."
+    },
+    {
+      "step": 3,
+      "section_title": "Computing Maximum Beauty",
+      "explanation": "Calculate the optimal total beauty by taking the sum of all second-minimums, subtracting the smallest second-minimum (which is sacrificed to collect the other minimums), and adding back the global minimum element."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(\\sum m_i)$",
+    "time_justification": "We process each element of every array exactly once to find the minimum and second-minimum values. Finding the minimum of the resulting size $n$ vectors takes $O(n)$ time. Since $\\sum m_i \\le 50000$ and $n \\le 25000$, the total operations per test case comfortably fit well within the 1-second time limit.",
+    "space_complexity": "$O(n)$",
+    "space_justification": "Vectors of size $n$ (`min_elements` and `second_min_elements`) are allocated to store the minimum and second-minimum values for each of the $n$ arrays, requiring linear space relative to the number of arrays."
+  },
+  "code_quality": {
+    "score": 95,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Efficient single-pass tracking of the first and second minimums for each array without requiring full sorting.",
+      "Proper use of 64-bit integers (`long long`) for the result to prevent potential integer overflow during summation.",
+      "Clean adherence to competitive programming I/O practices."
+    ],
+    "edge_cases_handled": [
+      "Arrays with only 2 elements ($m_i = 2$).",
+      "Cases with $n = 1$ array where no transfers are effectively meaningful.",
+      "Large array values up to $10^9$ handled properly via standard types."
+    ],
+    "best_practices_feedback": [
+      "Consider using `\n` instead of `endl` for faster output streaming in C++.",
+      "Variables could be declared closer to their usage scope for improved readability."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Sorting Inner Arrays",
+      "time_complexity": "$O(\\sum m_i \\log m_i)$",
+      "space_complexity": "$O(\\max m_i)$",
+      "tradeoffs": "Sorting each array explicitly to grab the first and second elements is simpler to write but asymptotically slower than finding them in a single linear pass ($O(m)$)."
+    }
+  ],
+  "generated_at": 1786577614,
+  "model": "gemini-3.5-flash-lite"
+}

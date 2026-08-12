@@ -1,0 +1,64 @@
+{
+  "title": "Straight-Line Reflection Mapping via Geometry",
+  "algorithm_tags": [
+    "Geometry",
+    "Math",
+    "Reflection Mapping"
+  ],
+  "approach_explanation": "When a ball travels on a square table of side length $s$ at $45^\text{circ}$ angles, its trajectory can be modeled by reflecting the table across its boundaries infinitely. In this unfolded plane, a trajectory is just a straight ray. Since pockets are located at $(0,0)$, $(0,s)$, $(s,0)$, and $(s,s)$, a ball will eventually reach a pocket if and only if its initial position $(x_i, y_i)$ and velocity direction $(dx, dy)$ lie directly on one of the diagonals of the square table that lead straight to a corner. Specifically, for a trajectory moving with slope $+1$, the condition is $x_i = y_i$ when $dx = dy$, or $y_i = s - x_i$ when $dx \neq dy$. This reduces the problem of simulating ball bounces to simple coordinate checks per ball.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization",
+      "explanation": "Reads the number of test cases $t$, and for each test case reads $n$ (the number of balls) and $s$ (the side length of the table)."
+    },
+    {
+      "step": 2,
+      "section_title": "Ball Trajectory Analysis",
+      "explanation": "Iterates through all $n$ balls, reading their direction vectors $dx, dy$ and initial positions $xi, yi$."
+    },
+    {
+      "step": 3,
+      "section_title": "Pocket Condition Check",
+      "explanation": "Checks if the ball is already on a trajectory aligned directly with a pocket. A ball with $dx = dy$ will hit a pocket if $xi = yi$. A ball with $dx \neq dy$ will hit a pocket if $yi = s - xi$. If either condition holds, the pocket counter is incremented."
+    },
+    {
+      "step": 4,
+      "section_title": "Result Output",
+      "explanation": "Prints the total number of potted balls for each testcase."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "O(N)",
+    "time_justification": "For each of the $t$ test cases, we loop $n$ times where $n$ is the number of balls. Inside the loop, we perform a constant number of $O(1)$ arithmetic and logical comparisons. Thus, the total time complexity is $O(\text{sum of } n)$, which is bounded by $10^3$ operations across all test cases.",
+    "space_complexity": "O(1)",
+    "space_justification": "Only a few scalar variables ($t, n, s, dx, dy, xi, yi, pockets$) are used to process the inputs on-the-fly, requiring constant auxiliary memory beyond standard I/O buffers."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely clean and concise implementation.",
+      "Avoids complex and slow physical simulations by leveraging mathematical insight.",
+      "Optimal $O(N)$ time complexity and $O(1)$ space complexity."
+    ],
+    "edge_cases_handled": [
+      "Handles both diagonal types ($y = x$ and $y = s - x$).",
+      "Supports all four quadrant velocity combinations ($dx, dy \u2208 \\{-1, 1\\}$)."
+    ],
+    "best_practices_feedback": [
+      "Use '\n' instead of 'endl' to avoid unnecessary stream flushes for better competitive programming I/O performance.",
+      "Add parentheses around complex logical conjunctions/disjunctions for enhanced code clarity."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Fast I/O Optimization",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(1)",
+      "tradeoffs": "Using std::ios_base::sync_with_stdio(false); cin.tie(NULL); ensures optimal performance under tight competitive programming time limits when input sizes are large."
+    }
+  ],
+  "generated_at": 1786577636,
+  "model": "gemini-3.5-flash-lite"
+}

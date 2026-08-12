@@ -1,0 +1,64 @@
+{
+  "title": "Greedy Coordinate Adjustment via Invariants",
+  "algorithm_tags": [
+    "Greedy",
+    "Math",
+    "Geometry"
+  ],
+  "approach_explanation": "The problem asks for the minimum moves to get from $(a, b)$ to $(c, d)$ using two allowed moves: $(x, y) \to (x+1, y+1)$ and $(x, y) \to (x-1, y)$. Notice that each move $(x+1, y+1)$ increases both $x$ and $y$ by $1$, while the move $(x-1, y)$ decreases $x$ by $1$ and leaves $y$ unchanged. Since only the first move changes the $y$-coordinate, the total increase in $y$ must be achieved entirely by the $(+1, +1)$ diagonal move. Therefore, $d - b$ must be non-negative, and $d - b$ represents the exact number of $(+1, +1)$ moves required. Each such move increases the $x$-coordinate by $1$ as well. Thus, after performing the $d - b$ diagonal moves, our current x-coordinate becomes $a + (d - b)$. To finally reach the target $c$, we must use the left move $(x-1, y)$ a certain number of times. Since each left move decreases $x$ by $1$, the number of left moves needed is $(a + (d - b)) - c$. For this to be valid, the intermediate x-coordinate after all vertical/diagonal ascents must be greater than or equal to the target $c$ (i.e., $a + (d - b) \\geq c$, or equivalently $c - a \\leq d - b$). If this condition fails, or if $d < b$, it is impossible, and we output $-1$. Otherwise, the total number of moves is $(d - b) + ((a + d - b) - c) = 2(d - b) + a - c$.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Read Test Cases",
+      "explanation": "Read the number of test cases $t$ and loop through each test case."
+    },
+    {
+      "step": 2,
+      "section_title": "Read Coordinates",
+      "explanation": "Read the starting coordinates $(a, b)$ and target coordinates $(c, d)$ for the current test case."
+    },
+    {
+      "step": 3,
+      "section_title": "Feasibility Check",
+      "explanation": "Check if $d - b < 0$ (meaning we need to go down, which is impossible) or if $c - a > d - b$ (meaning the target x is further right than we can reach with just the diagonal moves needed to reach height $d$). If either holds, print -1."
+    },
+    {
+      "step": 4,
+      "section_title": "Calculate and Output Result",
+      "explanation": "If feasible, output the calculated minimum cost formula: $2 \\times |b - d| + a - c$, which simplifies to $2(d - b) + a - c$."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(1)$",
+    "time_justification": "Each testcase executes a fixed number of basic arithmetic comparisons and operations, running in constant time $O(1)$. For $t$ testcases, the total time complexity is $O(t)$, which comfortably passes within the 1-second limit for $t \\le 10^4$.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "Only a few scalar integer variables are allocated to store coordinates and loop counters, requiring $O(1)$ auxiliary space."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise implementation with direct mathematical deduction.",
+      "Optimal time and space complexity."
+    ],
+    "edge_cases_handled": [
+      "Target coordinates already matching start coordinates ($a=c, b=d$).",
+      "Target requiring downward movement ($d < b$), correctly caught and rejected.",
+      "Negative coordinate values supported correctly."
+    ],
+    "best_practices_feedback": [
+      "Use fast I/O (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming to prevent I/O bottlenecks.",
+      "Avoid redundant `continue` statements after `cout` inside conditional blocks."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Formula Implementation",
+      "time_complexity": "$O(1)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "The current solution is already optimal in terms of both time and space complexity, utilizing a direct analytical formula without any need for searching or simulation."
+    }
+  ],
+  "generated_at": 1786577711,
+  "model": "gemini-3.5-flash-lite"
+}

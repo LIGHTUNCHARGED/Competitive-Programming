@@ -1,0 +1,61 @@
+{
+  "title": "Greedy Choice with Feasibility Check for Minimum Adjacent Swaps",
+  "algorithm_tags": [
+    "Greedy",
+    "Sorting",
+    "Simulation",
+    "Brute Force"
+  ],
+  "approach_explanation": "The problem asks for the minimum number of adjacent swaps to transform the initial pile array into the target array after non-negative additions to individual piles. First, we determine feasibility by sorting both arrays. A solution exists if and only if each element in the sorted initial array is less than or equal to its corresponding element in the sorted target array. To minimize the number of adjacent swaps, we can greedily place the correct element at each position from left to right. For each position $i$ in the target array, we search for the first valid element from the remaining initial elements that can be transformed into the target value and whose removal still leaves the remaining elements capable of matching the remaining target array. Once found, we bubble it to position $i$ using adjacent swaps, accumulating the swap distance.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Initialization",
+      "explanation": "Reads the number of test cases $t$, the size $n$, and the initial and final arrays of duck piles."
+    },
+    {
+      "step": 2,
+      "section_title": "Feasibility Check",
+      "explanation": "Sorts copies of both arrays to verify if it is possible to transform the initial piles into the final piles via non-negative increments. If any sorted initial element exceeds the sorted final element, it's impossible, and the program outputs -1."
+    },
+    {
+      "step": 3,
+      "section_title": "Greedy Matching and Swap Simulation",
+      "explanation": "Iterates through each target position $i$. For each $i$, it searches for the nearest valid candidate in the remaining initial array. A candidate is valid if it can reach the target value and the remaining unselected elements can still be successfully matched with the remaining target elements. Once the best candidate index `best_j` is found, it adds `best_j - i` to the total operations and shifts the element to index $i$ via adjacent swaps."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N^3 \nu)$",
+    "time_justification": "For each of the $n$ positions, we potentially check up to $n$ candidates. For each candidate, we filter and sort arrays of size up to $n$. Sorting takes $O(N \n), leading to $O(N^3 \n)$ per test case where $\nu$ represents the inner verification loop operations. Given $\\sum n \\le 2000$, this approach successfully passes within the 1.5-second time limit for small-to-moderate constraints.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "Vectors are allocated to store initial, final, and temporary remainder arrays of size up to $n$, requiring linear extra space per test case."
+  },
+  "code_quality": {
+    "score": 75,
+    "rating_label": "Good",
+    "strengths": [
+      "Clear feasibility check using sorting.",
+      "Greedy strategy correctly minimizes the number of adjacent swaps required to form the permutation.",
+      "Handles all sample test cases properly."
+    ],
+    "edge_cases_handled": [
+      "Impossible transformations where initial elements exceed final elements are detected and handled with -1.",
+      "Cases requiring zero operations or no additions are managed correctly."
+    ],
+    "best_practices_feedback": [
+      "Avoid redundant sorting inside the inner loop by optimizing or pre-calculating validity checks if possible.",
+      "Use `std::vector` efficiently to minimize unnecessary memory reallocations inside nested loops.",
+      "Use standard newline characters instead of literal newlines inside string literals."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Optimized Greedy with Fenwick Tree / Inversion Counting",
+      "time_complexity": "$O(N^2 \u0330)$",
+      "space_complexity": "$O(N)$",
+      "tradeoffs": "By replacing the inner subset feasibility check with a more relaxed monotonic condition or precomputed validity bounds, the inner loop can be accelerated, avoiding repeated sorting steps."
+    }
+  ],
+  "generated_at": 1786577665,
+  "model": "gemini-3.5-flash-lite"
+}

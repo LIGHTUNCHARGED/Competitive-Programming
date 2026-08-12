@@ -1,0 +1,56 @@
+{
+  "title": "Parity Analysis for Coin Representation",
+  "algorithm_tags": [
+    "Math",
+    "Parity",
+    "Number Theory"
+  ],
+  "approach_explanation": "The problem asks whether we can express $n = 2x + ky$ for some non-negative integers $x$ and $y$. We can break this down by analyzing the parity of $k$ and $n$. Since $2x$ is always even, the parity of $n$ is determined solely by $ky$. If $k$ is odd, we can always choose $y$ such that $ky$ matches the parity of $n$ (either $0$ or $1$ times $k$), and the remaining amount $n - ky$ will be even, allowing it to be covered by $2x$. If $k$ is even, $ky$ is always even, meaning $n$ must be even to be representable. Finally, if $k = 1$, any $n$ can be represented using $y = n$.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Setup and Fast I/O",
+      "explanation": "Includes standard headers, sets up fast I/O, and reads the number of test cases $t$."
+    },
+    {
+      "step": 2,
+      "section_title": "Per-Test Case Parity Check",
+      "explanation": "Reads $n$ and $k$ as 64-bit signed integers (`long long`) to prevent overflow given $10^{18}$ constraints. Evaluates the ternary condition: if $k == 1$, or $k$ is odd ($k \text{ % } 2 == 1$), or both $k$ and $n$ are even ($k \text{ % } 2 == 0 \text{ and } n \text{ % } 2 == 0$), prints 'YES'; otherwise prints 'NO'."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(t)$",
+    "time_justification": "The solution loops through each of the $t$ test cases and performs a constant number of arithmetic and logical operations in $O(1)$ time per test case.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "Only a few scalar variables (`t`, `n`, `k`) of type `long long` and `int` are used, which require constant auxiliary memory."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely concise and efficient implementation.",
+      "Uses `long long` to prevent integer overflow for $10^{18}$.",
+      "Per test case time complexity is optimal at $O(1)$."
+    ],
+    "edge_cases_handled": [
+      "Large values of $n$ and $k$ up to $10^{18}$ handled correctly via 64-bit integers.",
+      "Handles $k = 1$ correctly.",
+      "Handles cases where $k$ is larger than $n$ implicitly via problem constraints ($k \ne 2$).",
+      "Handles both odd and even parity branches exhaustively."
+    ],
+    "best_practices_feedback": [
+      "Consider using explicit conditional blocks `if-else` instead of nested ternary operators for better readability.",
+      "Avoid `#include<bits/stdc++.h>` in production environments for compilation speed, though it is standard in competitive programming."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Bitwise Parity Check",
+      "time_complexity": "$O(t)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Using bitwise operations like `(n & 1)` instead of modulo `(n % 2)` can micro-optimize performance, though modern compilers optimize modulo by powers of two automatically."
+    }
+  ],
+  "generated_at": 1786577717,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Parity Invariant Analysis for The Equalizer Game",
+  "algorithm_tags": [
+    "Game Theory",
+    "Parity",
+    "Math"
+  ],
+  "approach_explanation": "The game consists of decrementing array elements by 1 until all elements are 0, with one player having the option to reset all elements to a special value k once. The winner can be determined by analyzing the total sum of the array and its parity invariant. Each normal move decreases the total sum by 1, while the special reset move changes the sum from the current sum to n * k. Because the game ends when all numbers reach 0 (total sum = 0) and the player who makes the last move wins, the parity of the total number of moves made in the game is invariant with respect to the total sum's initial parity when combined with the special move properties. Specifically, Shaunak can win if the initial sum is odd (he can force certain parities) or if (n * k) is even, enabling strategic control over the parity of remaining moves.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization & Input Reading",
+      "explanation": "Reads the number of test cases $t$, and for each testcase reads $n$ and $k$."
+    },
+    {
+      "step": 2,
+      "section_title": "Sum Calculation",
+      "explanation": "Computes the running sum of all elements in the input array in linear time."
+    },
+    {
+      "step": 3,
+      "section_title": "Parity Condition Check and Output",
+      "explanation": "Evaluates the win condition based on whether the initial sum is odd or if $n \\times k$ is even, printing 'YES' or 'NO' accordingly."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through the array of size $N$ once to compute the sum. Across $t$ test cases, total time is $O(\\sum N)$, which easily runs within the 1-second limit for $N \\le 100$ and $t \\le 500$.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "The array elements are processed on-the-fly without storing them in a vector or array, requiring only a constant amount of auxiliary memory."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Extremely concise code with optimal $O(1)$ auxiliary space complexity.",
+      "Avoids unnecessary array allocations by accumulating the sum on the fly."
+    ],
+    "edge_cases_handled": [
+      "Handles single-element arrays correctly.",
+      "Handles various values of $k$ and large initial array elements up to $10^3$."
+    ],
+    "best_practices_feedback": [
+      "Use `\\n` instead of `endl` to avoid performance penalties from unnecessary stream flushing.",
+      "Include fast I/O optimizations (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) for competitive programming."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Fast I/O Enhanced Summation",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Adding `ios_base::sync_with_stdio(false)` speeds up standard input/output operations, which is beneficial when handling multiple test cases."
+    }
+  ],
+  "generated_at": 1786577850,
+  "model": "gemini-3.5-flash-lite"
+}

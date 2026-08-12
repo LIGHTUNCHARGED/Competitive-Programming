@@ -1,0 +1,70 @@
+{
+  "title": "Greedy Array Transformation for Unit Array",
+  "algorithm_tags": [
+    "Greedy",
+    "Math",
+    "Ad-Hoc"
+  ],
+  "approach_explanation": "To make the array 'good', two conditions must be satisfied: the sum of the elements must be non-negative ($\\sum a_i \\ge 0$), and the product of the elements must be equal to $1$ (meaning the number of $-1$s must be even). Changing a $-1$ to a $1$ increases the sum by $2$ and decreases the count of $-1$s by $1$. Changing a $1$ to a $-1$ would decrease the sum and is never optimal when trying to make the sum non-negative. Therefore, a greedy approach is used: first, flip $-1$s to $1$s until the sum becomes non-negative. Second, if the remaining count of $-1$s is odd, we must perform one more flip (changing a $-1$ to a $1$, or equivalently changing any element) to ensure the product condition is met.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Input Reading and Initialization",
+      "explanation": "Read the number of test cases $t$, and for each test case, read the size of the array $n$. Initialize `sum` and `num_negatives` counters."
+    },
+    {
+      "step": 2,
+      "section_title": "Counting and Initial Sum Calculation",
+      "explanation": "Iterate through the $n$ elements, accumulating the total sum of the array and counting how many elements are strictly less than $0$ (i.e., equal to $-1$)."
+    },
+    {
+      "step": 3,
+      "section_title": "Greedy Sum Correction",
+      "explanation": "While the sum is less than $0$, we greedily flip a $-1$ to $1$. Each operation increases the sum by $2$, reduces the negative count by $1$, and increments the operation count `ops`."
+    },
+    {
+      "step": 4,
+      "section_title": "Product Condition Check",
+      "explanation": "After the sum condition is satisfied, check if the remaining number of negative elements is odd. If it is, the product is $-1$, so we need one more operation to fix the product parity, incrementing `ops` by $1$."
+    },
+    {
+      "step": 5,
+      "section_title": "Output Result",
+      "explanation": "Print the total operations required for the current test case."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(n)$",
+    "time_justification": "For each test case, we iterate through the array of size $n$ once to compute the sum and negative counts. The while loop runs at most $n/2$ times. Thus, the time complexity per testcase is $O(n)$, and for $t$ test cases, it is $O(\\sum n)$, which comfortably fits within the 1-second time limit for $\\sum n \\le 500 \\times 100 = 50000$.",
+    "space_complexity": "$O(1)$",
+    "space_justification": "The algorithm uses a few scalar variables (`n`, `sum`, `num_negatives`, `ops`, `num`) without storing the array in memory, resulting in constant auxiliary space $O(1)$."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Efficient $O(1)$ auxiliary space complexity by streaming input elements instead of storing the array.",
+      "Clean, straightforward greedy logic matching mathematical invariants of the problem."
+    ],
+    "edge_cases_handled": [
+      "Arrays that already satisfy all conditions (zero operations needed).",
+      "Arrays with all elements equal to $-1$ or all elements equal to $1$.",
+      "Arrays of small sizes, such as $n = 1$."
+    ],
+    "best_practices_feedback": [
+      "Prefer using `\n` instead of `endl` for faster I/O performance in competitive programming.",
+      "Include `ios_base::sync_with_stdio(false); cin.tie(NULL);` for fast I/O operations.",
+      "Use descriptive variable names instead of generic ones where applicable."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Direct Mathematical Formula",
+      "time_complexity": "$O(n)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of a simulation while loop, the minimum operations can be computed directly using arithmetic formulas based on `sum` and `num_negatives`, saving a few CPU cycles though asymptotically identical."
+    }
+  ],
+  "generated_at": 1786577732,
+  "model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,60 @@
+{
+  "title": "Backward Dynamic Programming / Greedy Optimization for Maximum Stamina Points",
+  "algorithm_tags": [
+    "Dynamic Programming",
+    "Greedy",
+    "Backward Iteration"
+  ],
+  "approach_explanation": "The problem requires us to choose a subset of tasks to complete sequentially from task 1 to task n, maximizing our total points. Each completed task i gives $S \times c_i$ points, and then updates the current stamina $S \to S \times (1 - p_i / 100)$. Instead of tracking the stamina forward from $S = 1$, which grows cumbersome, we can solve this problem backwards from task $n$ down to task $1$. Let `max_score` represent the maximum possible points obtainable from suffix tasks starting from a unit stamina of $1$. When considering task $i$, we either skip it (keeping the score of the remaining suffix) or we take it, gaining $c_i$ points immediately and contributing a factor of $(1 - p_i / 100)$ to all subsequent tasks. Thus, the recurrence relation moving backwards is: $\text{max}_i = \text{max}(\text{max}_{i+1}, c_i + \text{max}_{i+1} \times (1 - p_i / 100))$.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Input Reading",
+      "explanation": "Read the number of test cases $t$, and for each test case, read the number of tasks $n$ and the arrays $c$ and $p$ representing task values and percentage decreases respectively."
+    },
+    {
+      "step": 2,
+      "section_title": "Backward Iteration over Tasks",
+      "explanation": "Initialize `max_score` to $0.0$. Iterate from $i = n-1$ down to $0$, updating `max_score` using the recurrence relation `max_score = max(max_score, c[i] + max_score * (1.0 - p[i] / 100.0))`. This captures the optimal choice at each step given the suffix choices."
+    },
+    {
+      "step": 3,
+      "section_title": "Formatted Output",
+      "explanation": "Print the final `max_score` with standard fixed-point representation and high precision (`setprecision(10)`) to meet the required absolute/relative error threshold of $10^{-6}$."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each testcase, we iterate through the $n$ tasks once in a single reverse loop. The sum of $n$ over all test cases is bounded by $10^5$, leading to a total time complexity of $O(\textsum n) = O(10^5)$, which easily executes within the 2.0-second time limit.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "We store the values and difficulties of $n$ tasks using two `std::vector<int>` arrays of size $n$ per testcase. This requires $O(n)$ auxiliary space, well within the 256 megabytes memory limit."
+  },
+  "code_quality": {
+    "score": 90,
+    "rating_label": "Optimal",
+    "strengths": [
+      "Extremely clean and concise implementation.",
+      "Cleverly avoids forward state-space explosion by working backwards from the suffix.",
+      "Handles floating-point formatting correctly using fixed and setprecision."
+    ],
+    "edge_cases_handled": [
+      "Task percentage $p_i = 0$ (stamina doesn't decrease).",
+      "Task percentage $p_i = 100$ (stamina drops to 0).",
+      "Multiple test cases handled properly within standard I/O constraints."
+    ],
+    "best_practices_feedback": [
+      "Include fast I/O optimizations (`ios_base::sync_with_stdio(false); cin.tie(NULL);`) to avoid potential I/O bottlenecks in competitive programming.",
+      "Use `\n` instead of `endl` to prevent unnecessary stream flushes."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Constant Space Backward Iteration",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(1)$",
+      "tradeoffs": "Instead of storing vectors $c$ and $p$ in memory, we can read them backwards or store them offline in a single pass if memory optimization is extremely critical, though $O(N)$ space is already completely safe for $N = 10^5$ under 256 MB."
+    }
+  ],
+  "generated_at": 1786577690,
+  "model": "gemini-3.5-flash-lite"
+}

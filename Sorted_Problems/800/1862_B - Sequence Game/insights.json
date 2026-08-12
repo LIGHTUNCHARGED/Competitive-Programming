@@ -1,0 +1,61 @@
+{
+  "title": "Constructive Algorithm for Sequence Game Reconstruction",
+  "algorithm_tags": [
+    "Constructive Algorithms",
+    "Greedy",
+    "Arrays"
+  ],
+  "approach_explanation": "The problem requires us to reconstruct an original sequence $a$ given a filtered sequence $b$. The sequence $b$ is formed by keeping $a_1$ and every subsequent element $a_i$ where $a_{i-1} \bge a_i$ is false (i.e., $a_{i-1} \bleq a_i$). To reverse-engineer this, we iterate through $b$. We always include $b_i$. If $b_i \bge b_{i-1}$, it means $b_i$ could naturally follow $b_{i-1}$ in $a$. However, if $b_i < b_{i-1}$, a drop occurs in $b$. In the original sequence $a$, such a drop must be preceded by an element greater than or equal to $b_{i-1}$ and followed by $b_i$. To safely satisfy the condition and prevent $b_i$ from being falsely filtered out when compared to a higher preceding element, we can insert $b_i$ twice (or insert a small number like 1, or $b_i$ itself). Specifically, inserting $b_i$ twice ensures that the first copy drops from $b_{i-1}$ (so it won't be in $b$) and the second copy is equal to the first, satisfying $a_{i-1} \bleq a_i$ so it is kept in $b$. This guarantees exact reconstruction of $b$ when the game rules are applied to $a$.",
+  "code_breakdown": [
+    {
+      "step": 1,
+      "section_title": "Test Case Initialization and Input",
+      "explanation": "Reads the number of test cases $t$, and for each test case reads the sequence length $n$ and the sequence $b$ of size $n$."
+    },
+    {
+      "step": 2,
+      "section_title": "Sequence Reconstruction Logic",
+      "explanation": "Initializes an array $a$ starting with $b[0]$. Iterates from index $1$ to $n-1$. If $b[i] \bge b[i-1]$, pushes $b[i]$ to $a$. If $b[i] < b[i-1]$, pushes $b[i]$ twice to $a$, handling the non-increasing transition safely."
+    },
+    {
+      "step": 3,
+      "section_title": "Output Generation",
+      "explanation": "Prints the size of the constructed sequence $a$, followed by all elements separated by spaces."
+    }
+  ],
+  "complexity_analysis": {
+    "time_complexity": "$O(N)$",
+    "time_justification": "For each test case, we iterate through the sequence $b$ of length $n$ a single time, performing $O(1)$ operations per element. Across all test cases, the sum of $n$ is bounded by $2 \bcdot 10^5$, leading to an optimal linear time complexity of $O(\u2211 n)$.",
+    "space_complexity": "$O(N)$",
+    "space_justification": "We store the input vector $b$ of size $n$ and the constructed vector $a$ of size at most $2n$. Thus, the auxiliary space complexity is linear with respect to the input size $n$."
+  },
+  "code_quality": {
+    "score": 85,
+    "rating_label": "Good",
+    "strengths": [
+      "Simple, elegant, and directly addresses the construction constraint without unnecessary complexity.",
+      "Handles non-decreasing and decreasing consecutive elements correctly.",
+      "Meets the length requirement $n \bleq m \bleq 2n$."
+    ],
+    "edge_cases_handled": [
+      "Single element arrays ($n = 1$).",
+      "Strictly decreasing sequences where every element triggers the duplication rule.",
+      "Non-decreasing sequences where no elements need duplication."
+    ],
+    "best_practices_feedback": [
+      "Use `\n` instead of `endl` for faster I/O operations in competitive programming.",
+      "Apply `ios_base::sync_with_stdio(false); cin.tie(NULL);` at the beginning of `main` for optimal speed.",
+      "Use `size_t` or explicit casting when comparing container sizes with signed integers to avoid compiler warnings."
+    ]
+  },
+  "optimization_and_alternatives": [
+    {
+      "approach_name": "Pre-allocated Vector Construction",
+      "time_complexity": "$O(N)$",
+      "space_complexity": "$O(N)$",
+      "tradeoffs": "Instead of dynamic `push_back` which can occasionally trigger reallocations, we can pre-allocate maximum possible capacity ($2n$) for vector $a$ and use an index pointer, slightly reducing overhead."
+    }
+  ],
+  "generated_at": 1786577769,
+  "model": "gemini-3.5-flash-lite"
+}
