@@ -235,6 +235,19 @@ def update_database_json():
         json.dump(db, f, indent=4)
     print(f"📊 Updated database.json ({updated}/{len(db.get('problems', []))} problems have insights).")
 
+def main_batch(client, force=False):
+    archive_dir = Path("Sorted_Problems")
+    print(f"Starting batch AI Insights generation across {archive_dir}...")
+    count = 0
+    for rating_dir in archive_dir.glob("*"):
+        if rating_dir.is_dir():
+            for prob_dir in rating_dir.glob("*"):
+                if prob_dir.is_dir():
+                    if generate_insights_for_problem(client, prob_dir, force=force):
+                        count += 1
+    print(f"Batch generation completed. Total generated/updated: {count}")
+    update_database_json()
+
 def main():
     parser = argparse.ArgumentParser(description="Generate AI Code Insights for Competitive Programming archive.")
     parser.add_argument("--path", help="Specific problem folder path (e.g. Sorted_Problems/800/1788_A - One and Two)")
@@ -251,21 +264,12 @@ def main():
             print(f"Error: Path '{args.path}' does not exist.", file=sys.stderr)
             sys.exit(1)
         generate_insights_for_problem(client, target_dir, force=args.force)
+        update_database_json()
     elif args.all:
-        print(f"Starting batch AI Insights generation across {archive_dir}...")
-        count = 0
-        for rating_dir in archive_dir.glob("*"):
-            if rating_dir.is_dir():
-                for prob_dir in rating_dir.glob("*"):
-                    if prob_dir.is_dir():
-                        if generate_insights_for_problem(client, prob_dir, force=args.force):
-                            count += 1
-        print(f"Batch generation completed. Total generated/updated: {count}")
+        main_batch(client, force=args.force)
     else:
         print("Usage: python generate_insights.py --path <folder_path> OR --all [--force]")
         sys.exit(1)
-
-    update_database_json()
 
 if __name__ == "__main__":
     main()

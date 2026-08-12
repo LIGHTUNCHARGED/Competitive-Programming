@@ -174,6 +174,16 @@ def main():
         organize_files(ratings, archive_dir)
         
     generate_database(archive_dir, merged_dates)
+    
+    # Auto-generate AI Insights for any new problems if GEMINI_API_KEY is set
+    if os.getenv("GEMINI_API_KEY"):
+        try:
+            import generate_insights
+            print("\n🤖 Checking for newly added problems to generate AI Insights...")
+            client = generate_insights.get_gemini_client()
+            generate_insights.main_batch(client)
+        except Exception as e:
+            print(f"Skipping auto AI Insights generation: {e}")
 
 if __name__ == "__main__":
     main()
