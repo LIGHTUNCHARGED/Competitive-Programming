@@ -1,8 +1,8 @@
 {
     "stats": {
-        "total": 49,
+        "total": 50,
         "by_rating": {
-            "800": 33,
+            "800": 34,
             "1000": 11,
             "1100": 3,
             "1300": 1,
@@ -10,6 +10,14 @@
         }
     },
     "problems": [
+        {
+            "contestId": "1791",
+            "index": "C",
+            "name": "Prepend and Append",
+            "rating": "800",
+            "timestamp": 1786642579,
+            "path": "Sorted_Problems/800/1791_C - Prepend and Append"
+        },
         {
             "contestId": "1788",
             "index": "A",
