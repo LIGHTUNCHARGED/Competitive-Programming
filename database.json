@@ -1,15 +1,23 @@
 {
     "stats": {
-        "total": 54,
+        "total": 55,
         "by_rating": {
             "1300": 1,
             "1000": 11,
             "1100": 3,
-            "800": 38,
+            "800": 39,
             "1400": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1789",
+            "index": "A",
+            "name": "Serval and Mocha's Array",
+            "rating": "800",
+            "timestamp": 1786891213,
+            "path": "Sorted_Problems/800/1789_A - Serval and Mocha's Array"
+        },
         {
             "contestId": "1761",
             "index": "A",
