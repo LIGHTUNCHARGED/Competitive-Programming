@@ -1,16 +1,24 @@
 {
     "stats": {
-        "total": 56,
+        "total": 57,
         "by_rating": {
             "1300": 1,
             "1000": 11,
-            "900": 1,
+            "900": 2,
             "1100": 3,
             "800": 39,
             "1400": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1878",
+            "index": "C",
+            "name": "Vasilije in Cacak",
+            "rating": "900",
+            "timestamp": 1786920417,
+            "path": "Sorted_Problems/900/1878_C - Vasilije in Cacak"
+        },
         {
             "contestId": "1904",
             "index": "A",
