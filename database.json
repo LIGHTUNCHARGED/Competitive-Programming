@@ -1,16 +1,24 @@
 {
     "stats": {
-        "total": 58,
+        "total": 59,
         "by_rating": {
             "1300": 1,
             "1000": 11,
-            "900": 3,
+            "900": 4,
             "1100": 3,
             "800": 39,
             "1400": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1875",
+            "index": "A",
+            "name": "Jellyfish and Undertale",
+            "rating": "900",
+            "timestamp": 1786996584,
+            "path": "Sorted_Problems/900/1875_A - Jellyfish and Undertale"
+        },
         {
             "contestId": "1878",
             "index": "C",
