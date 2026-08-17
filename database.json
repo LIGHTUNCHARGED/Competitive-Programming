@@ -1,16 +1,24 @@
 {
     "stats": {
-        "total": 59,
+        "total": 60,
         "by_rating": {
             "1300": 1,
             "1000": 11,
-            "900": 4,
+            "900": 5,
             "1100": 3,
             "800": 39,
             "1400": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1869",
+            "index": "A",
+            "name": "Make It Zero",
+            "rating": "900",
+            "timestamp": 1787003935,
+            "path": "Sorted_Problems/900/1869_A - Make It Zero"
+        },
         {
             "contestId": "1875",
             "index": "A",
