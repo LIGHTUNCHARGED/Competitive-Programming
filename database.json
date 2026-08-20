@@ -1,16 +1,24 @@
 {
     "stats": {
-        "total": 63,
+        "total": 64,
         "by_rating": {
             "1300": 1,
             "1000": 11,
-            "900": 8,
+            "900": 9,
             "1100": 3,
             "800": 39,
             "1400": 1
         }
     },
     "problems": [
+        {
+            "contestId": "1828",
+            "index": "B",
+            "name": "Permutation Swap",
+            "rating": "900",
+            "timestamp": 1787260294,
+            "path": "Sorted_Problems/900/1828_B - Permutation Swap"
+        },
         {
             "contestId": "1837",
             "index": "B",
